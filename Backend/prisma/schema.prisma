@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  name     String
+  password String
+
+  responses Response[]
+  leaderboardEntries LeaderboardEntry[]
+}
+
+model Admin {
+  id       String @id @default(uuid())
+  username String @unique
+  name     String
+  password String
+
+  quizzes Quiz[]
+}
+
+model Quiz {
+  id          String            @id @default(uuid())
+  title       String
+  code        String    @unique
+  adminId     String
+  hidden      Boolean           @default(false)
+  admin       Admin             @relation(fields: [adminId], references: [id])
+  questions   Question[]
+  leaderboard Leaderboard?
+  createdAt   DateTime          @default(now())
+}
+
+model Leaderboard {
+  id      String @id @default(uuid())
+  quizid  String @unique
+  quiz    Quiz   @relation(fields: [quizid], references: [id])
+  entries LeaderboardEntry[]
+}
+
+model LeaderboardEntry {
+  id            String     @id @default(uuid())
+  userId        String
+  leaderboardId String
+  score         Int
+  createdAt     DateTime   @default(now())
+
+  user         User         @relation(fields: [userId], references: [id])
+  leaderboard  Leaderboard  @relation(fields: [leaderboardId], references: [id])
+}
+
+model Question {
+  id        String     @id @default(uuid())
+  text      String
+  quizId    String
+  quiz      Quiz       @relation(fields: [quizId], references: [id])
+  options   Option[]
+  responses Response[]
+}
+
+model Option {
+  id         String     @id @default(uuid())
+  text       String
+  isCorrect  Boolean    @default(false)
+  questionId String
+  question   Question   @relation(fields: [questionId], references: [id])
+  responses  Response[] @relation("OptionResponse")
+}
+
+model Response {
+  id               String @id @default(uuid())
+  userId           String
+  questionId       String
+  selectedOptionId String
+
+  user           User     @relation(fields: [userId], references: [id])
+  question       Question @relation(fields: [questionId], references: [id])
+  selectedOption Option   @relation("OptionResponse", fields: [selectedOptionId], references: [id])
+}
