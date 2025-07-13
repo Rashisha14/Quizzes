@@ -18,7 +18,7 @@ function UserSignin() {
       .then(res => {
         alert(res.data.message);
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("name", username);
+        localStorage.setItem("username", username);
         Navigate("/user/quiz");
       })
       .catch(err => {
