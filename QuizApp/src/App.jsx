@@ -7,6 +7,7 @@ import AdminSignin from './components/AdminSignin';
 import UserQuiz from './components/UserQuiz';
 import AdminQuiz from './components/AdminQuiz';
 import QuizDetails from './components/QuizDetails';
+import LeaderboardPage from './components/LeaderboardPage'
 import './index.css';
 
 
@@ -21,6 +22,8 @@ function App() {
         <Route path="/admin/signup" element={<AdminSignup />} />
         <Route path="/admin/quiz" element={<AdminQuiz />} />
         <Route path="/user/quiz/:id" element={<QuizDetails />} />
+        <Route path="/user/results/:id" element={<LeaderboardPage />} />
+
 
         
       </Routes>
