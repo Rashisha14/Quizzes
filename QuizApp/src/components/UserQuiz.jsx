@@ -3,34 +3,57 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
 
+/**
+ * UserQuiz — landing page for students
+ * -------------------------------------------------
+ * • Shows all public quizzes
+ * • Highlights quizzes the user has already completed (green)
+ * • Provides search‑by‑code
+ * • Buttons adapt:
+ *    - "Start Quiz" if not attempted
+ *    - "View Result" if attempted
+ */
 function UserQuiz() {
-
+  // ────────────────────────────────────────────────
+  // State
+  // ────────────────────────────────────────────────
   const [quizzes, setQuizzes] = useState([]);
   const [searchCode, setSearchCode] = useState("");
   const [searchedQuiz, setSearchedQuiz] = useState(null);
+  const [attemptedIds, setAttemptedIds] = useState(new Set());
+
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
 
-
+  // ────────────────────────────────────────────────
+  // Fetch quizzes + attempted list on mount
+  // ────────────────────────────────────────────────
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/user/quiz", { headers: { token } })
-      .then((res) => setQuizzes(res.data))
-      .catch((err) => {
+    const fetchData = async () => {
+      try {
+        const [quizRes, attemptedRes] = await Promise.all([
+          axios.get("http://localhost:3000/user/quiz", { headers: { token } }),
+          axios.get("http://localhost:3000/user/attempted", { headers: { token } }) // { quizIds: [] }
+        ]);
+        setQuizzes(quizRes.data);
+        setAttemptedIds(new Set(attemptedRes.data.quizIds || []));
+      } catch (err) {
         console.error(err);
         alert("Failed to fetch quizzes");
-      });
+      }
+    };
+    fetchData();
   }, [token]);
 
-
+  // ────────────────────────────────────────────────
+  // Handlers
+  // ────────────────────────────────────────────────
   const handleSearch = () => {
     if (!searchCode.trim()) return alert("Please enter a quiz code");
 
     axios
-      .get(`http://localhost:3000/user/quiz/viacode/${searchCode}`, {
-        headers: { token },
-      })
+      .get(`http://localhost:3000/user/quiz/viacode/${searchCode}`, { headers: { token } })
       .then((res) => {
         res.data ? setSearchedQuiz(res.data) : alert("Quiz not found");
       })
@@ -41,48 +64,67 @@ function UserQuiz() {
   };
 
   const gotoQuiz = (quizId) => navigate(`/user/quiz/${quizId}`);
-  const gotoLeaderboard = (quizId) => navigate(`/user/results/${quizId}`); 
+  const gotoLeaderboard = (quizId) => navigate(`/user/results/${quizId}`);
 
-  const QuizCard = ({ quiz }) => (
-    <div
-      onClick={() => gotoQuiz(quiz.id)}
-      className="cursor-pointer bg-white max-w-md w-full rounded-3xl p-6 shadow-lg hover:shadow-xl border border-sky-200 hover:border-sky-400 transition duration-300 transform hover:-translate-y-1"
-    >
-      <h2 className="text-2xl font-bold text-sky-700">{quiz.title}</h2>
-      <p className="mt-2 text-slate-600 text-sm">
-        Code: <span className="font-mono">{quiz.code || "N/A"}</span>
-      </p>
-      <p className="text-slate-600 text-sm mt-1">
-        Created By: <span className="italic">{quiz.admin?.name || "Unknown"}</span>
-      </p>
+  // ────────────────────────────────────────────────
+  // Quiz Card
+  // ────────────────────────────────────────────────
+  const QuizCard = ({ quiz }) => {
+    const attempted = attemptedIds.has(quiz.id);
 
-      {/* Card action buttons */}
-      <div className="mt-4 flex gap-3">
-        {/* Attempt quiz */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            gotoQuiz(quiz.id);
-          }}
-          className="bg-sky-500 hover:bg-sky-600 text-white font-medium py-1.5 px-4 rounded-lg transition duration-200"
-        >
-          Start Quiz
-        </button>
+    const cardStyle = attempted
+      ? "bg-emerald-50 border-emerald-300 hover:border-emerald-400"
+      : "bg-white border-sky-200 hover:border-sky-400";
 
-        {/* Leaderboard */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            gotoLeaderboard(quiz.id);
-          }}
-          className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-1.5 px-4 rounded-lg transition duration-200"
-        >
-          Leaderboard
-        </button>
+    return (
+      <div
+        onClick={() => (attempted ? gotoLeaderboard(quiz.id) : gotoQuiz(quiz.id))}
+        className={`cursor-pointer max-w-md w-full rounded-3xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border ${cardStyle}`}
+      >
+        <h2 className="text-2xl font-bold text-sky-700 flex items-center gap-2">
+          {quiz.title}
+          {attempted && (
+            <span className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full">Completed</span>
+          )}
+        </h2>
+        <p className="mt-2 text-slate-600 text-sm">
+          Code: <span className="font-mono">{quiz.code || "N/A"}</span>
+        </p>
+        <p className="text-slate-600 text-sm mt-1">
+          Created By: <span className="italic">{quiz.admin?.name || "Unknown"}</span>
+        </p>
+
+        <div className="mt-4 flex gap-3">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              attempted ? gotoLeaderboard(quiz.id) : gotoQuiz(quiz.id);
+            }}
+            className={`font-medium py-1.5 px-4 rounded-lg transition duration-200 ${
+              attempted
+                ? "bg-emerald-500 hover:bg-emerald-600 text-white"
+                : "bg-sky-500 hover:bg-sky-600 text-white"
+            }`}
+          >
+            {attempted ? "View Result" : "Start Quiz"}
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              gotoLeaderboard(quiz.id);
+            }}
+            className="bg-purple-500 hover:bg-purple-600 text-white font-medium py-1.5 px-4 rounded-lg transition duration-200"
+          >
+            Leaderboard
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
+  // ────────────────────────────────────────────────
+  // Render
+  // ────────────────────────────────────────────────
   return (
     <div className="min-h-screen px-6 py-10 bg-gradient-to-br from-sky-50 to-sky-100 font-sans text-slate-800">
       {/* Header */}
@@ -114,7 +156,7 @@ function UserQuiz() {
         Available Quizzes
       </h1>
 
-      {/* Quiz list */}
+      {/* List */}
       <div className="flex flex-wrap justify-center gap-10">
         {searchedQuiz ? (
           <div className="max-w-md w-full rounded-3xl p-6 flex flex-col gap-10">
@@ -127,9 +169,7 @@ function UserQuiz() {
             </button>
           </div>
         ) : quizzes.length === 0 ? (
-          <p className="text-center text-lg text-slate-500 mt-10">
-            No quizzes available
-          </p>
+          <p className="text-center text-lg text-slate-500 mt-10">No quizzes available</p>
         ) : (
           quizzes.map((quiz) => <QuizCard key={quiz.id} quiz={quiz} />)
         )}

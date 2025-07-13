@@ -393,6 +393,40 @@ app.post("/user/quiz/:id", async (req, res) => {
   }
 });
 
+// Get quiz IDs that the user has already attempted
+app.get("/user/attempted", async (req, res) => {
+  const token = req.headers.token;
+  if (!token) return res.status(400).json({ message: "Token missing" });
+
+  try {
+    const decoded = JWT.verify(token, JWT_Pass);
+    const userId = decoded.id;
+
+    
+    const responses = await prisma.response.findMany({
+      where: { userId },
+      include: {
+        question: {
+          select: {
+            quizId: true
+          }
+        }
+      }
+    });
+
+    // Extract unique quiz IDs from responses
+    const quizIds = Array.from(
+      new Set(responses.map((r) => r.question?.quizId).filter(Boolean))
+    );
+
+    res.json({ quizIds });
+  } catch (err) {
+    console.error("Error fetching attempted quizzes:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 // All Leaderboard for  User
 app.get("/user/results", async (req, res) => {
 
