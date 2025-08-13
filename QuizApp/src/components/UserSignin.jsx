@@ -181,7 +181,7 @@ export default function UserSignin() {
                 <Link to="/user/signup" className="font-medium text-amber-700 hover:text-amber-800">
                   Create account
                 </Link>
-                <Link to="/admin/signup" className="text-slate-500 hover:text-slate-750">
+                <Link to="/admin/signup" className="text-slate-500 hover:text-slate-700">
                   Sign up as Admin
                 </Link>
               </div>
