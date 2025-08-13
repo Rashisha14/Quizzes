@@ -3,20 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
 
-/**
- * UserQuiz — landing page for students
- * -------------------------------------------------
- * • Shows all public quizzes
- * • Highlights quizzes the user has already completed (green)
- * • Provides search‑by‑code
- * • Buttons adapt:
- *    - "Start Quiz" if not attempted
- *    - "View Result" if attempted
- */
 function UserQuiz() {
-  // ────────────────────────────────────────────────
-  // State
-  // ────────────────────────────────────────────────
+
   const [quizzes, setQuizzes] = useState([]);
   const [searchCode, setSearchCode] = useState("");
   const [searchedQuiz, setSearchedQuiz] = useState(null);
@@ -26,15 +14,12 @@ function UserQuiz() {
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
 
-  // ────────────────────────────────────────────────
-  // Fetch quizzes + attempted list on mount
-  // ────────────────────────────────────────────────
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [quizRes, attemptedRes] = await Promise.all([
           axios.get("http://localhost:3000/user/quiz", { headers: { token } }),
-          axios.get("http://localhost:3000/user/attempted", { headers: { token } }) // { quizIds: [] }
+          axios.get("http://localhost:3000/user/attempted", { headers: { token } }) 
         ]);
         setQuizzes(quizRes.data);
         setAttemptedIds(new Set(attemptedRes.data.quizIds || []));
@@ -46,9 +31,6 @@ function UserQuiz() {
     fetchData();
   }, [token]);
 
-  // ────────────────────────────────────────────────
-  // Handlers
-  // ────────────────────────────────────────────────
   const handleSearch = () => {
     if (!searchCode.trim()) return alert("Please enter a quiz code");
 
@@ -66,9 +48,7 @@ function UserQuiz() {
   const gotoQuiz = (quizId) => navigate(`/user/quiz/${quizId}`);
   const gotoLeaderboard = (quizId) => navigate(`/user/results/${quizId}`);
 
-  // ────────────────────────────────────────────────
-  // Quiz Card
-  // ────────────────────────────────────────────────
+
   const QuizCard = ({ quiz }) => {
     const attempted = attemptedIds.has(quiz.id);
 
@@ -122,9 +102,6 @@ function UserQuiz() {
     );
   };
 
-  // ────────────────────────────────────────────────
-  // Render
-  // ────────────────────────────────────────────────
   return (
     <div className="min-h-screen px-6 py-10 bg-gradient-to-br from-sky-50 to-sky-100 font-sans text-slate-800">
       {/* Header */}

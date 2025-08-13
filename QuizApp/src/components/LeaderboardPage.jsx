@@ -43,9 +43,9 @@ function LeaderboardPage() {
       ) : (
         <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6">
           <div className="overflow-x-auto">
-            <table className="w-full table-fixed text-sm sm:text-base">
+            <table className="border-collapse w-full table-fixed text-sm sm:text-base">
               <thead>
-                <tr className="text-sky-700 border-b">
+                <tr className="text-sky-700">
                   <th className="px-4 py-2 text-center w-20">Rank</th>
                   <th className="px-4 py-2">Name</th>
                   <th className="px-4 py-2">Username</th>
@@ -58,7 +58,7 @@ function LeaderboardPage() {
                   .map((entry, index) => (
                     <tr
                       key={index}
-                      className={`border-t ${index % 2 === 0 ? "bg-sky-50/40" : "bg-white"}`}
+                      className={` ${index % 2 === 0 ? "bg-sky-100" : "bg-white"}`}
                     >
                       <td className="px-4 py-2 text-center font-semibold">
                         {medal(entry.rank)}
