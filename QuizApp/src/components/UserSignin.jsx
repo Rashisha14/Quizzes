@@ -58,28 +58,28 @@ export default function UserSignin() {
           </p>
 
           <ul className="mt-8 grid max-w-lg grid-cols-1 gap-4 text-sm text-slate-700 sm:grid-cols-2">
-            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <TrophyIcon />
               <div>
                 <p className="font-semibold">Compete & win</p>
                 <p className="text-slate-500">Climb the global leaderboard</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <LightningIcon />
               <div>
                 <p className="font-semibold">Quick access</p>
                 <p className="text-slate-500">One tap to your quizzes</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <ShieldIcon />
               <div>
                 <p className="font-semibold">Privacy first</p>
                 <p className="text-slate-500">Your data stays protected</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <SparklesIcon />
               <div>
                 <p className="font-semibold">Beautiful UI</p>
@@ -91,7 +91,8 @@ export default function UserSignin() {
 
         {/* Right: sign-in card */}
         <section className="order-1 md:order-2">
-          <div className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl backdrop-blur-md">
+          <div className="flex min-h-150 items-center justify-center">
+          <div className="mx-auto w-full max-w-md rounded-2xl border  border-slate-200 bg-white/80 p-8 shadow-xl backdrop-blur-md">
             <div className="mb-6 text-center">
               <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100">
                 <LogoIcon />
@@ -186,6 +187,7 @@ export default function UserSignin() {
                 </Link>
               </div>
             </form>
+          </div>
           </div>
         </section>
       </main>

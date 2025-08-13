@@ -53,123 +53,155 @@ export default function UserSignup() {
           <p className="mt-4 max-w-md text-slate-600">
             Start competing, learning, and climbing the leaderboard by creating your free account.
           </p>
+          <ul className="mt-8 grid max-w-lg grid-cols-1 gap-4 text-sm text-slate-700 sm:grid-cols-2">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+              <TrophyIcon />
+              <div>
+                <p className="font-semibold">Compete & win</p>
+                <p className="text-slate-500">Climb the global leaderboard</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+              <LightningIcon />
+              <div>
+                <p className="font-semibold">Quick access</p>
+                <p className="text-slate-500">One tap to your quizzes</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+              <ShieldIcon />
+              <div>
+                <p className="font-semibold">Privacy first</p>
+                <p className="text-slate-500">Your data stays protected</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+              <SparklesIcon />
+              <div>
+                <p className="font-semibold">Beautiful UI</p>
+                <p className="text-slate-500">Clean, distraction-free design</p>
+              </div>
+            </li>
+          </ul>
         </section>
 
         {/* Right side signup form */}
         <section className="order-1 md:order-2">
-          <div className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl backdrop-blur-md">
-            <div className="mb-6 text-center">
-              <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100">
-                <LogoIcon />
-              </div>
-              <h2 className="text-2xl font-bold text-slate-900">Sign up</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Create your QuizArrow account
-              </p>
-            </div>
-
-            <form onSubmit={submit} className="space-y-4">
-              <div>
-                <label htmlFor="username" className="mb-1 block text-sm font-medium text-slate-700">
-                  Username
-                </label>
-                <div className="relative">
-                  <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                    <UserIcon className="h-4 w-4 text-slate-400" />
-                  </span>
-
-                  <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    value={form.username}
-                    onChange={onChange}
-                    className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
-                    placeholder="Enter your username"
-                  />
+          <div className="flex min-h-150 items-center justify-center">
+            <div className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl backdrop-blur-md">
+              <div className="mb-6 text-center">
+                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100">
+                  <LogoIcon />
                 </div>
+                <h2 className="text-2xl font-bold text-slate-900">Sign up</h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  Create your QuizArrow account
+                </p>
               </div>
 
-              <div>
-                <label htmlFor="name" className="mb-1 block text-sm font-medium text-slate-700">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                    <UserIcon className="h-4 w-4 text-slate-400" />
-                  </span>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={form.name}
-                    onChange={onChange}
-                    className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-              </div>
+              <form onSubmit={submit} className="space-y-4">
+                <div>
+                  <label htmlFor="username" className="mb-1 block text-sm font-medium text-slate-700">
+                    Username
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                      <UserIcon className="h-4 w-4 text-slate-400" />
+                    </span>
 
-              <div>
-                <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700">
-                  Password
-                </label>
-                <div className="relative">
-                  <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                    <LockIcon className="h-4 w-4 text-slate-400" />
-                  </span>
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPwd ? "text" : "password"}
-                    value={form.password}
-                    onChange={onChange}
-                    className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
-                    placeholder="••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPwd((s) => !s)}
-                    className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-500 hover:text-slate-700"
-                  >
-                    {showPwd ? "Hide" : "Show"}
-                  </button>
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      value={form.username}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
+                      placeholder="Enter your username"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {err && (
-                <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-                  {err}
+                <div>
+                  <label htmlFor="name" className="mb-1 block text-sm font-medium text-slate-700">
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                      <UserIcon className="h-4 w-4 text-slate-400" />
+                    </span>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      value={form.name}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
+                      placeholder="Enter your full name"
+                    />
+                  </div>
                 </div>
-              )}
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-black shadow-sm transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {loading ? (
-                  <>
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/60 border-t-transparent" />
-                    Signing up…
-                  </>
-                ) : (
-                  
-                  <>
-                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                  Sign up</>
+                <div>
+                  <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                      <LockIcon className="h-4 w-4 text-slate-400" />
+                    </span>
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPwd ? "text" : "password"}
+                      value={form.password}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPwd((s) => !s)}
+                      className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-500 hover:text-slate-700"
+                    >
+                      {showPwd ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                </div>
+
+                {err && (
+                  <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                    {err}
+                  </div>
                 )}
-              </button>
 
-              <div className="mt-3 flex items-center justify-between text-sm">
-                <Link to="/user/signin" className="font-medium text-green-700 hover:text-green-900">
-                  Already have account?
-                </Link>
-                <Link to="/admin/signup" className="text-slate-500 hover:text-slate-700">
-                  Sign up as Admin
-                </Link>
-              </div>
-            </form>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-black shadow-sm transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {loading ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/60 border-t-transparent" />
+                      Signing up…
+                    </>
+                  ) : (
+
+                    <>
+                      <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                      Sign up</>
+                  )}
+                </button>
+
+                <div className="mt-3 flex items-center justify-between text-sm">
+                  <Link to="/user/signin" className="font-medium text-green-700 hover:text-green-900">
+                    Already have account?
+                  </Link>
+                  <Link to="/admin/signup" className="text-slate-500 hover:text-slate-700">
+                    Sign up as Admin
+                  </Link>
+                </div>
+              </form>
+            </div>
           </div>
         </section>
       </main>
@@ -238,6 +270,50 @@ function ArrowRightIcon({ className = "h-4 w-4" }) {
       <path
         fill="currentColor"
         d="M13 5l7 7-7 7v-4H4v-6h9V5z"
+      />
+    </svg>
+  );
+}
+
+function TrophyIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 text-amber-600">
+      <path
+        fill="currentColor"
+        d="M18 2h-2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1H6a1 1 0 0 0-1 1v2a5 5 0 0 0 4 4.9V12H7a1 1 0 0 0-1 1v1h12v-1a1 1 0 0 0-1-1h-2V9.9A5 5 0 0 0 19 5V3a1 1 0 0 0-1-1Zm-1 3a3 3 0 0 1-2 2.816V4h2v1ZM7 4h2v3.816A3 3 0 0 1 7 5V4Zm-2 17h14v2H5v-2Z"
+      />
+    </svg>
+  );
+}
+
+function LightningIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 text-indigo-600">
+      <path
+        fill="currentColor"
+        d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"
+      />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 text-emerald-600">
+      <path
+        fill="currentColor"
+        d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"
+      />
+    </svg>
+  );
+}
+
+function SparklesIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 text-pink-600">
+      <path
+        fill="currentColor"
+        d="M5 3l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4zm14 6l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2zm-6 5l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4z"
       />
     </svg>
   );
