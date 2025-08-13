@@ -200,7 +200,7 @@ export default function UserSignup() {
 
 function LogoIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6 text-emerald-600">
+    <svg viewBox="0 0 24 24" className="h-6 w-6 text-emerald-650">
       <path
         d="M12 3l3.09 6.26L22 10.27l-5 4.9 1.18 7.06L12 18.9 5.82 22.23 7 15.17l-5-4.9 6.91-1.01L12 3z"
         fill="currentColor"
