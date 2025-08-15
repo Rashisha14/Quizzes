@@ -1,82 +1,324 @@
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import '../App.css'
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
-function UserSignup() {
-    const navigate = useNavigate();
+export default function AdminSignup() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ name: "", username: "", password: "" });
+  const [showPwd, setShowPwd] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState("");
 
-    function sup() {
-        const username = document.getElementById("Username").value;
-        const password = document.getElementById("Password").value;
-        const name = document.getElementById("Name").value;
+  const onChange = (e) => {
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  };
 
-        if (!username || !password || !name) {
-            alert("Please fill all fields");
-            return;
-        }
-
-        axios.post("http://localhost:3000/admin/signup", { username, password, name })
-            .then(res => {
-                navigate("/admin/signin");
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Signup failed");
-            });
+  const submit = async (e) => {
+    e.preventDefault();
+    setErr("");
+    if (!form.name || !form.username || !form.password) {
+      setErr("Please fill all fields.");
+      return;
     }
+    try {
+      setLoading(true);
+      await axios.post("http://localhost:3000/admin/signup", form);
+      navigate("/admin/signin");
+    } catch (error) {
+      setErr("Signup failed. Try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-green-800 to-green-400 ">
-            <h2 className="text-white text-4xl font-bold mb-5 text-center text-shadow-2xs text-shadow-black ">QuizArrow</h2>
-            <div className="bg-white p-8 rounded-xl shadow-green-200 shadow-2xl w-full max-w-md">
-                <h3 className="text-amber-700 text-lg font-medium mb-1 text-center">Admin</h3>
-                <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Signup</h2>
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-stone-50">
+      {/* Background animation blobs */}
+      <div className="pointer-events-none absolute -top-28 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-green-300 to-emerald-500 opacity-70 blur-3xl float-blob" />
+      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr  from-green-300 to-emerald-500 opacity-30 blur-3xl float-blob-delay" />
+      <div className="pointer-events-none absolute inset-0 dots-mask opacity-[0.07]" />
 
-                <div className="space-y-4">
-                    <input
-                        id="Name"
-                        placeholder="Name"
-                        type="text"
-                        className="w-full px-4 py-2 border border-gray-500 rounded-md  focus:ring-2 focus:ring-amber-400"
-                    />
-                    <input
-                        id="Username"
-                        placeholder="Username"
-                        type="text"
-                        className="w-full px-4 py-2 border border-gray-500 rounded-md  focus:ring-2 focus:ring-amber-400"
-                    />
-                    <input
-                        id="Password"
-                        placeholder="Password"
-                        type="password"
-                        className="w-full px-4 py-2 border border-gray-500 rounded-md  focus:ring-2 focus:ring-amber-400"
-                    />
+      <main className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-16 md:grid-cols-2">
+        {/* Left info section */}
+        <section className="order-2 md:order-1">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-white px-3 py-1 text-xs font-medium text-emerald-600 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            Create Your Account
+          </div>
 
-                    <button
-                        onClick={sup}
-                        className="w-full bg-amber-300 hover:bg-amber-400 text-black py-2 rounded-md font-medium transition duration-200"
-                    >
-                        Signup
-                    </button>
+          <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
+            Create your <span className="text-emerald-600">Admin</span> account
+          </h1>
+          <p className="mt-4 max-w-md text-slate-600">
+            Sign up to start managing quizzes, users, and results securely from your dashboard.
+          </p>
+          <ul className="mt-8 grid max-w-lg grid-cols-1 gap-4 text-sm text-slate-700 sm:grid-cols-2">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm hover:scale-110 transition">
+              <ShieldIcon />
+              <div>
+                <p className="font-semibold">Full Control</p>
+                <p className="text-slate-500">Manage the platform with ease</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm hover:scale-110 transition">
+              <DashboardSparklesIcon/>
+              <div>
+                <p className="font-semibold">Clean Dashboard</p>
+                <p className="text-slate-500">Easy to navigate tools</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+              <LightningIcon />
+              <div>
+                <p className="font-semibold">Privacy first</p>
+                <p className="text-slate-500">Your data stays protected</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+              <SparklesIcon />
+              <div>
+                <p className="font-semibold">Beautiful UI</p>
+                <p className="text-slate-500">Clean, distraction-free design</p>
+              </div>
+            </li>
+          </ul>
+        </section>
 
-
-                    <p className="mt-4 text-sm text-gray-600 text-center">
-                        Already have an account?{" "}
-                        <a href="/admin/signin" className="text-amber-600 hover:underline">
-                            Go to Signin
-                        </a>
-                    </p>
-                    <p className="text-sm text-gray-600 text-center mt-1">
-                        Do You want to Participate a Quiz? {" "}
-                        <a href="/user/signup" className="text-amber-600 hover:underline">
-                            Signup as User
-                        </a>
-                    </p>
+        {/* Right sign-up form */}
+        <section className="order-1 md:order-2">
+          <div className="flex min-h-140 items-center justify-center">
+            <div className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl backdrop-blur-md">
+              <div className="mb-6 text-center">
+                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100">
+                  <LogoIcon />
                 </div>
+                <h2 className="text-2xl font-bold text-slate-900">Admin Sign up</h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  Create your account to access the admin dashboard
+                </p>
+              </div>
+
+              <form onSubmit={submit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="mb-1 block text-sm font-medium text-slate-700">
+                    Name
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-3 flex items-center">
+                      <UserIcon />
+                    </span>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      value={form.name}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
+                      placeholder="Enter your name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="username" className="mb-1 block text-sm font-medium text-slate-700">
+                    Username
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-3 flex items-center">
+                      <UserIcon />
+                    </span>
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      value={form.username}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
+                      placeholder="Choose a username"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-3 flex items-center">
+                      <LockIcon />
+                    </span>
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPwd ? "text" : "password"}
+                      value={form.password}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none  focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPwd((s) => !s)}
+                      className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-500 hover:text-slate-700"
+                    >
+                      {showPwd ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                </div>
+
+                {err && (
+                  <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                    {err}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-black shadow-sm transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {loading ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/60 border-t-transparent" />
+                      Signing up…
+                    </>
+                  ) : (
+                    <>
+                      <ArrowRightIcon />
+                      Sign up
+                    </>
+                  )}
+                </button>
+
+                <div className="mt-3 flex items-center justify-between text-sm">
+                  <Link to="/admin/signin" className="font-medium text-green-700 hover:text-green-900">
+                    Already have an account?
+                  </Link>
+                  <Link to="/user/signup" className="text-slate-500 hover:text-slate-700">
+                    Sign up as User
+                  </Link>
+                </div>
+              </form>
             </div>
-        </div>
-    );
+          </div>
+        </section>
+      </main>
+
+      <style>{`
+        .float-blob {
+          animation: float 12s ease-in-out infinite;
+        }
+        .float-blob-delay {
+          animation: float 14s ease-in-out infinite reverse;
+        }
+        @keyframes float {
+          0%   { transform: translateY(0px) translateX(0px) scale(1); }
+          50%  { transform: translateY(-18px) translateX(8px) scale(1.03); }
+          100% { transform: translateY(0px) translateX(0px) scale(1); }
+        }
+        .dots-mask {
+          background-image:
+            radial-gradient(currentColor 1px, transparent 1px);
+          background-size: 18px 18px;
+          color: #0f172a;
+          mask-image: radial-gradient(circle at center, black 55%, transparent 72%);
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function LogoIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6 text-emerald-600">
+      <path
+        d="M12 3l3.09 6.26L22 10.27l-5 4.9 1.18 7.06L12 18.9 5.82 22.23 7 15.17l-5-4.9 6.91-1.01L12 3z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-400">
+      <path
+        fill="currentColor"
+        d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5C21 16.5 17 14 12 14Z"
+      />
+    </svg>
+  );
+}
+function LockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-400">
+      <path
+        fill="currentColor"
+        d="M17 9h-1V7a4 4 0 1 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-6 7.73V18h2v-1.27a2 2 0 1 0-2 0ZM9 7a3 3 0 1 1 6 0v2H9Z"
+      />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5 text-emerald-600">
+      <path
+        fill="currentColor"
+        d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"
+      />
+    </svg>
+  );
+}
+function SparklesIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5 text-pink-600">
+      <path
+        fill="currentColor"
+        d="M5 3l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4zm14 6l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2zm-6 5l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4z"
+      />
+    </svg>
+  );
+}
+function ArrowRightIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4">
+      <path
+        fill="currentColor"
+        d="M13 5l7 7-7 7v-4H4v-6h9V5z"
+      />
+    </svg>
+  );
+}
+
+function LightningIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 text-indigo-600">
+      <path
+        fill="currentColor"
+        d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"
+      />
+    </svg>
+  );
+}
+
+function DashboardSparklesIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="h-6 w-6 text-gray-700 dark:text"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M8 6h13M8 12h13M8 18h13" />
+      <circle cx="3" cy="6" r="1.5" />
+      <circle cx="3" cy="12" r="1.5" />
+      <circle cx="3" cy="18" r="1.5" />
+    </svg>
+  );
 }
 
 
-export default UserSignup;

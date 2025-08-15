@@ -38,7 +38,7 @@ export default function UserSignin() {
     <div className="relative min-h-screen overflow-hidden bg-stone-50">
       {/* Animated, subtle background */}
       <div className="pointer-events-none absolute -top-28 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 opacity-30 blur-3xl float-blob" />
-      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-indigo-300 to-sky-400 opacity-30 blur-3xl float-blob-delay" />
+      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr  from-amber-300 to-orange-500 opacity-30 blur-3xl float-blob-delay" />
       <div className="pointer-events-none absolute inset-0 dots-mask opacity-[0.07]" />
 
       <main className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-16 md:grid-cols-2">
@@ -91,7 +91,7 @@ export default function UserSignin() {
 
         {/* Right: sign-in card */}
         <section className="order-1 md:order-2">
-          <div className="flex min-h-150 items-center justify-center">
+          <div className="flex min-h-140 items-center justify-center">
           <div className="mx-auto w-full max-w-md rounded-2xl border  border-slate-200 bg-white/80 p-8 shadow-xl backdrop-blur-md">
             <div className="mb-6 text-center">
               <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100">
