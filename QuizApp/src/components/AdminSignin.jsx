@@ -37,20 +37,20 @@ export default function AdminSignin() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-stone-50">
       {/* Background animation blobs */}
-      <div className="pointer-events-none absolute -top-28 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-purple-300 to-indigo-500 opacity-30 blur-3xl float-blob" />
-      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-pink-300 to-red-400 opacity-30 blur-3xl float-blob-delay" />
+      <div className="pointer-events-none absolute -top-28 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-green-300 to-emerald-500 opacity-70 blur-3xl float-blob" />
+      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr  from-green-300 to-emerald-500 opacity-30 blur-3xl float-blob-delay" />
       <div className="pointer-events-none absolute inset-0 dots-mask opacity-[0.07]" />
 
       <main className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-16 md:grid-cols-2">
         {/* Left info section */}
         <section className="order-2 md:order-1">
-          <div className="inline-flex items-center gap-2 rounded-full border border-purple-300 bg-white px-3 py-1 text-xs font-medium text-purple-600 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-purple-500" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-white px-3 py-1 text-xs font-medium text-emerald-600 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
              Secure & Fast Admin Access
           </div>
 
           <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
-            Welcome back, <span className="text-purple-600">Admin</span>
+            Welcome back, <span className="text-emerald-600">Admin</span>
           </h1>
           <p className="mt-4 max-w-md text-slate-600">
             Manage quizzes, users, and results securely from your admin dashboard.
@@ -93,7 +93,7 @@ export default function AdminSignin() {
           <div className="flex min-h-140 items-center justify-center">
             <div className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl backdrop-blur-md">
               <div className="mb-6 text-center">
-                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100">
+                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100">
                   <LogoIcon />
                 </div>
                 <h2 className="text-2xl font-bold text-slate-900">Admin Sign in</h2>
@@ -117,7 +117,7 @@ export default function AdminSignin() {
                       type="text"
                       value={form.username}
                       onChange={onChange}
-                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 focus:border-purple-400 focus:ring-2 focus:ring-purple-300"
+                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
                       placeholder="Enter your username"
                     />
                   </div>
@@ -137,7 +137,7 @@ export default function AdminSignin() {
                       type={showPwd ? "text" : "password"}
                       value={form.password}
                       onChange={onChange}
-                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 focus:border-purple-400 focus:ring-2 focus:ring-purple-300"
+                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
                       placeholder="••••••••"
                     />
                     <button
@@ -159,7 +159,7 @@ export default function AdminSignin() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-purple-500 px-4 py-2 font-semibold text-white shadow-sm hover:bg-purple-400 disabled:opacity-70"
+                  className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-black shadow-sm transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {loading ? (
                     <>
@@ -175,7 +175,7 @@ export default function AdminSignin() {
                 </button>
 
                 <div className="mt-3 flex items-center justify-between text-sm">
-                  <Link to="/admin/signup" className="font-medium text-purple-700 hover:text-purple-800">
+                  <Link to="/admin/signup" className="font-medium text-green-700 hover:text-green-900">
                     Create Admin account
                   </Link>
                   <Link to="/user/signin" className="text-slate-500 hover:text-slate-700">
@@ -214,7 +214,7 @@ export default function AdminSignin() {
 
 function LogoIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6 text-purple-600">
+    <svg viewBox="0 0 24 24" className="h-6 w-6 text-emerald-600">
       <path
         d="M12 3l3.09 6.26L22 10.27l-5 4.9 1.18 7.06L12 18.9 5.82 22.23 7 15.17l-5-4.9 6.91-1.01L12 3z"
         fill="currentColor"
