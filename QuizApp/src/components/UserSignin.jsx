@@ -35,55 +35,55 @@ export default function UserSignin() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-900 text-white">
-      {/* Animated background */}
-      <div className="pointer-events-none absolute -top-28 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-indigo-700 to-purple-600 opacity-40 blur-3xl float-blob" />
-      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-indigo-700 to-purple-600 opacity-40 blur-3xl float-blob-delay" />
+    <div className="relative min-h-screen overflow-hidden bg-gray-950 text-gray-100">
+      {/* Animated, subtle background */}
+      <div className="pointer-events-none absolute -top-28 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-amber-400/30 to-orange-500/30 blur-3xl float-blob" />
+      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-amber-400/30 to-orange-500/30 blur-3xl float-blob-delay" />
       <div className="pointer-events-none absolute inset-0 dots-mask opacity-[0.05]" />
 
       <main className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-16 md:grid-cols-2">
         {/* Left: brand + value prop */}
         <section className="order-2 md:order-1">
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500 bg-indigo-800/40 px-3 py-1 text-xs font-medium text-indigo-400 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-indigo-500" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-400 bg-gray-900 px-3 py-1 text-xs font-medium text-amber-400 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-amber-400" />
             Secure & Fast Sign-in
           </div>
 
           <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-white md:text-5xl">
-            Welcome back to <span className="text-indigo-400">QuizArrow</span>
+            Welcome back to <span className="text-amber-400">QuizArrow</span>
           </h1>
-          <p className="mt-4 max-w-md text-indigo-300">
+          <p className="mt-4 max-w-md text-gray-400">
             Sign in to continue your learning streak, compete on leaderboards,
             and track your progress across quizzes.
           </p>
 
-          <ul className="mt-8 grid max-w-lg grid-cols-1 gap-4 text-sm text-indigo-200 sm:grid-cols-2">
-            <li className="flex items-start gap-3 rounded-xl border border-indigo-700 bg-indigo-800/30 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+          <ul className="mt-8 grid max-w-lg grid-cols-1 gap-4 text-sm text-gray-300 sm:grid-cols-2">
+            <li className="flex items-start gap-3 rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <TrophyIcon />
               <div>
                 <p className="font-semibold text-white">Compete & win</p>
-                <p className="text-indigo-300">Climb the global leaderboard</p>
+                <p className="text-gray-400">Climb the global leaderboard</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-indigo-700 bg-indigo-800/30 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+            <li className="flex items-start gap-3 rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <LightningIcon />
               <div>
                 <p className="font-semibold text-white">Quick access</p>
-                <p className="text-indigo-300">One tap to your quizzes</p>
+                <p className="text-gray-400">One tap to your quizzes</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-indigo-700 bg-indigo-800/30 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+            <li className="flex items-start gap-3 rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <ShieldIcon />
               <div>
-                <p className="font-semibold text-white">Privacy first</p>
-                <p className="text-indigo-300">Your data stays protected</p>
+                <p className="font-semibold">Privacy first</p>
+                <p className="text-gray-400">Your data stays protected</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-indigo-700 bg-indigo-800/30 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+            <li className="flex items-start gap-3 rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <SparklesIcon />
               <div>
-                <p className="font-semibold text-white">Beautiful UI</p>
-                <p className="text-indigo-300">Clean, distraction-free design</p>
+                <p className="font-semibold">Beautiful UI</p>
+                <p className="text-slate-400">Clean, distraction-free design</p>
               </div>
             </li>
           </ul>
@@ -91,107 +91,109 @@ export default function UserSignin() {
 
         {/* Right: sign-in card */}
         <section className="order-1 md:order-2">
-          <div className="flex min-h-140 items-center justify-center">
-            <div className="mx-auto w-full max-w-md rounded-2xl border border-indigo-700 bg-indigo-800/70 p-8 shadow-xl backdrop-blur-md">
-              <div className="mb-6 text-center">
-                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600">
-                  <LogoIcon />
+          <div className="flex min-h-140 items-center justify-center ">
+          <div className="mx-auto w-full max-w-md rounded-2xl border  border-gray-700 bg-gray-900 p-8">
+            <div className="mb-6 text-center">
+              <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100">
+                <LogoIcon />
+              </div>
+              <h2 className="text-2xl font-bold text-white">Sign in</h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Access your QuizArrow account
+              </p>
+            </div>
+
+            <form onSubmit={submit} className="space-y-4">
+              <div>
+                <label htmlFor="username" className="mb-1 block text-sm font-medium text-gray-300">
+                  Username
+                </label>
+                <div className="relative">
+                  <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                    <UserIcon className="h-4 w-4 text-slate-500" />
+                  </span>
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    value={form.username}
+                    onChange={onChange}
+                    className="w-full rounded-lg border border-gray-700 bg-gray-800 px-10 py-2 text-gray-100 outline-none ring-amber-400 placeholder:text-gray-500 focus:border-amber-400 focus:ring-2"
+                    placeholder="Enter your username"
+                    autoComplete="username"
+                  />
                 </div>
-                <h2 className="text-2xl font-bold text-white">Sign in</h2>
-                <p className="mt-1 text-sm text-indigo-300">
-                  Access your QuizArrow account
-                </p>
               </div>
 
-              <form onSubmit={submit} className="space-y-4">
-                <div>
-                  <label htmlFor="username" className="mb-1 block text-sm font-medium text-indigo-300">
-                    Username
-                  </label>
-                  <div className="relative">
-                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                      <UserIcon className="h-4 w-4 text-indigo-400" />
-                    </span>
-                    <input
-                      id="username"
-                      name="username"
-                      type="text"
-                      value={form.username}
-                      onChange={onChange}
-                      className="w-full rounded-lg border border-indigo-600 bg-indigo-900/50 px-10 py-2 text-white outline-none ring-indigo-500 placeholder:text-indigo-400 focus:border-indigo-400 focus:ring-2"
-                      placeholder="Enter your username"
-                      autoComplete="username"
-                    />
-                  </div>
+              <div>
+                <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-300">
+                  Password
+                </label>
+                <div className="relative">
+                  <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                    <LockIcon className="h-4 w-4 text-slate-500" />
+                  </span>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPwd ? "text" : "password"}
+                    value={form.password}
+                    onChange={onChange}
+                    className="w-full rounded-lg border border-gray-700 bg-gray-800 px-10 py-2 text-gray-100 outline-none ring-amber-400 placeholder:text-gray-500 focus:border-amber-400 focus:ring-2"
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPwd((s) => !s)}
+                    className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-400 hover:text-slate-200"
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPwd ? "Hide" : "Show"}
+                  </button>
                 </div>
+              </div>
 
-                <div>
-                  <label htmlFor="password" className="mb-1 block text-sm font-medium text-indigo-300">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                      <LockIcon className="h-4 w-4 text-indigo-400" />
-                    </span>
-                    <input
-                      id="password"
-                      name="password"
-                      type={showPwd ? "text" : "password"}
-                      value={form.password}
-                      onChange={onChange}
-                      className="w-full rounded-lg border border-indigo-600 bg-indigo-900/50 px-10 py-2 text-white outline-none ring-indigo-500 placeholder:text-indigo-400 focus:border-indigo-400 focus:ring-2"
-                      placeholder="••••••••"
-                      autoComplete="current-password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPwd((s) => !s)}
-                      className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-indigo-400 hover:text-white"
-                      aria-label="Toggle password visibility"
-                    >
-                      {showPwd ? "Hide" : "Show"}
-                    </button>
-                  </div>
+              {err && (
+                <div className="rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-2 text-sm text-red-400">
+                  {err}
                 </div>
+              )}
 
-                {err && (
-                  <div className="rounded-lg border border-red-600 bg-red-700/20 px-3 py-2 text-sm text-red-300">
-                    {err}
-                  </div>
+              
+              <button
+                type="submit"
+                disabled={loading}
+                className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-amber-500 px-4 py-2 font-semibold text-black shadow-sm transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {loading ? (
+                  <>
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/60 border-t-transparent" />
+                    Signing in…
+                  </>
+                ) : (
+                  <>
+                    <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    Sign in
+                  </>
                 )}
+              </button>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-500 px-4 py-2 font-semibold text-black shadow-sm transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {loading ? (
-                    <>
-                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/60 border-t-transparent" />
-                      Signing in…
-                    </>
-                  ) : (
-                    <>
-                      <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                      Sign in
-                    </>
-                  )}
-                </button>
-
-                <div className="mt-3 flex items-center justify-between text-sm">
-                  <Link to="/user/signup" className="font-medium text-indigo-400 hover:text-indigo-300">
-                    Create account
-                  </Link>
-                  <Link to="/admin/signup" className="text-indigo-300 hover:text-indigo-200">
-                    Sign up as Admin
-                  </Link>
-                </div>
-              </form>
-            </div>
+              <div className="mt-3 flex items-center justify-between text-sm">
+                <Link to="/user/signup" className="font-medium text-amber-400 hover:text-amber-300">
+                  Create account
+                </Link>
+                <Link to="/admin/signup" className="text-gray-400 hover:text-gray-200">
+                  Sign up as Admin
+                </Link>
+              </div>
+            </form>
+          </div>
           </div>
         </section>
       </main>
 
+      {/* Local CSS for subtle animations & dots */}
       <style>{`
         .float-blob {
           animation: float 12s ease-in-out infinite;
@@ -205,18 +207,16 @@ export default function UserSignin() {
           100% { transform: translateY(0px) translateX(0px) scale(1); }
         }
         .dots-mask {
-          background-image: radial-gradient(currentColor 1px, transparent 1px);
+          background-image:
+            radial-gradient(currentColor 1px, transparent 1px);
           background-size: 18px 18px;
-          color: #fff;
+          color: #0f172a; /* slate-900 for dots */
           mask-image: radial-gradient(circle at center, black 55%, transparent 72%);
         }
       `}</style>
     </div>
   );
 }
-
-// Use same icons as before (LogoIcon, TrophyIcon, LightningIcon, ShieldIcon, SparklesIcon, UserIcon, LockIcon, ArrowRightIcon)
-
 
 /* ── Small inline SVG icons (no external assets) ─────────────────────────── */
 

@@ -72,11 +72,11 @@ export default function LandingPage() {
         </div>
 
         {/* Image */}
-        <div className="flex justify-center fade-up opacity-0 translate-y-10 transition duration-700 delay-200 md:w-1/2">
+        <div className="flex justify-center fade-up opacity-0 translate-y-20 transition duration-700 delay-200 md:w-1/2">
           <img
             src="https://quizizz.com/media/resource/gs/quizizz-media/quizzes/69faf064-9624-4634-9401-a5572734f7a0"
             alt="Quiz App Preview"
-            className="rounded-2xl shadow-2xl max-w-full border border-gray-800"
+            className="rounded-2xl shadow-2xl max-w-full border border-gray-800 hover:scale-110 transition-transform duration-300"
           />
         </div>
       </section>

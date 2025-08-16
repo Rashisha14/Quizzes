@@ -35,54 +35,54 @@ export default function AdminSignin() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-stone-50">
-      {/* Background animation blobs */}
-      <div className="pointer-events-none absolute -top-28 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-green-300 to-emerald-500 opacity-70 blur-3xl float-blob" />
-      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr  from-green-300 to-emerald-500 opacity-30 blur-3xl float-blob-delay" />
-      <div className="pointer-events-none absolute inset-0 dots-mask opacity-[0.07]" />
+    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-200">
+      {/* Background blobs */}
+      <div className="pointer-events-none absolute -top-28 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-emerald-500/40 to-green-700/40 blur-3xl float-blob" />
+      <div className="pointer-events-none absolute -bottom-28 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-tr from-emerald-400/30 to-green-700/30 blur-3xl float-blob-delay" />
+      <div className="pointer-events-none absolute inset-0 dots-mask opacity-[0.04]" />
 
       <main className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-16 md:grid-cols-2">
         {/* Left info section */}
         <section className="order-2 md:order-1">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-white px-3 py-1 text-xs font-medium text-emerald-600 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-             Secure & Fast Admin Access
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-emerald-900/30 px-3 py-1 text-xs font-medium text-emerald-300 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            Secure & Fast Admin Access
           </div>
 
-          <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
-            Welcome back, <span className="text-emerald-600">Admin</span>
+          <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-white md:text-5xl">
+            Welcome back, <span className="text-emerald-400">Admin</span>
           </h1>
-          <p className="mt-4 max-w-md text-slate-600">
+          <p className="mt-4 max-w-md text-slate-400">
             Manage quizzes, users, and results securely from your admin dashboard.
           </p>
 
-          <ul className="mt-8 grid max-w-lg grid-cols-1 gap-4 text-sm text-slate-700 sm:grid-cols-2">
-            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm hover:scale-110 transition">
+          <ul className="mt-8 grid max-w-lg grid-cols-1 gap-4 text-sm sm:grid-cols-2">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-3 shadow-sm hover:scale-105 transition">
               <ShieldIcon />
               <div>
-                <p className="font-semibold">Full Control</p>
-                <p className="text-slate-500">Manage the platform with ease</p>
+                <p className="font-semibold text-white">Full Control</p>
+                <p className="text-slate-400">Manage the platform with ease</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm hover:scale-110 transition">
-              <DashboardSparklesIcon/>
+            <li className="flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-3 shadow-sm hover:scale-105 transition">
+              <DashboardSparklesIcon />
               <div>
-                <p className="font-semibold">Clean Dashboard</p>
-                <p className="text-slate-500">Easy to navigate tools</p>
+                <p className="font-semibold text-white">Clean Dashboard</p>
+                <p className="text-slate-400">Easy to navigate tools</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-3 shadow-sm hover:scale-105">
               <LightningIcon />
               <div>
-                <p className="font-semibold">Privacy first</p>
-                <p className="text-slate-500">Your data stays protected</p>
+                <p className="font-semibold text-white">Privacy first</p>
+                <p className="text-slate-400">Your data stays protected</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-3 shadow-sm hover:scale-105">
               <SparklesIcon />
               <div>
-                <p className="font-semibold">Beautiful UI</p>
-                <p className="text-slate-500">Clean, distraction-free design</p>
+                <p className="font-semibold text-white">Beautiful UI</p>
+                <p className="text-slate-400">Clean, distraction-free design</p>
               </div>
             </li>
           </ul>
@@ -91,20 +91,20 @@ export default function AdminSignin() {
         {/* Right sign-in form */}
         <section className="order-1 md:order-2">
           <div className="flex min-h-140 items-center justify-center">
-            <div className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl backdrop-blur-md">
+            <div className="mx-auto w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900/70 p-8 shadow-2xl backdrop-blur-md">
               <div className="mb-6 text-center">
-                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100">
+                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-900/40">
                   <LogoIcon />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900">Admin Sign in</h2>
-                <p className="mt-1 text-sm text-slate-500">
-                  Access your admin dashboard
+                <h2 className="text-2xl font-bold text-white">Admin Sign in</h2>
+                <p className="mt-1 text-sm text-slate-400">
+                  Access your admin account
                 </p>
               </div>
 
               <form onSubmit={submit} className="space-y-4">
                 <div>
-                  <label htmlFor="username" className="mb-1 block text-sm font-medium text-slate-700">
+                  <label htmlFor="username" className="mb-1 block text-sm font-medium text-slate-300">
                     Username
                   </label>
                   <div className="relative">
@@ -117,14 +117,14 @@ export default function AdminSignin() {
                       type="text"
                       value={form.username}
                       onChange={onChange}
-                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
+                      className="w-full rounded-lg border border-slate-600 bg-slate-800 px-10 py-2 text-slate-200 placeholder-slate-500 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
                       placeholder="Enter your username"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700">
+                  <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-300">
                     Password
                   </label>
                   <div className="relative">
@@ -137,13 +137,13 @@ export default function AdminSignin() {
                       type={showPwd ? "text" : "password"}
                       value={form.password}
                       onChange={onChange}
-                      className="w-full rounded-lg border border-slate-300 bg-white px-10 py-2 text-slate-900 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
+                      className="w-full rounded-lg border border-slate-600 bg-slate-800 px-10 py-2 text-slate-200 placeholder-slate-500 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-300"
                       placeholder="••••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPwd((s) => !s)}
-                      className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-500 hover:text-slate-700"
+                      className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-400 hover:text-slate-200"
                     >
                       {showPwd ? "Hide" : "Show"}
                     </button>
@@ -151,7 +151,7 @@ export default function AdminSignin() {
                 </div>
 
                 {err && (
-                  <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                  <div className="rounded-lg border border-red-500/50 bg-red-900/30 px-3 py-2 text-sm text-red-400">
                     {err}
                   </div>
                 )}
@@ -163,22 +163,22 @@ export default function AdminSignin() {
                 >
                   {loading ? (
                     <>
-                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/60 border-t-transparent" />
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/50 border-t-transparent" />
                       Signing in…
                     </>
                   ) : (
                     <>
-                      <ArrowRightIcon />
+                      <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                       Sign in
                     </>
                   )}
                 </button>
 
                 <div className="mt-3 flex items-center justify-between text-sm">
-                  <Link to="/admin/signup" className="font-medium text-green-700 hover:text-green-900">
+                  <Link to="/admin/signup" className="font-medium text-emerald-400 hover:text-emerald-300">
                     Create Admin account
                   </Link>
-                  <Link to="/user/signin" className="text-slate-500 hover:text-slate-700">
+                  <Link to="/user/signin" className="text-slate-400 hover:text-slate-200">
                     Sign in as User
                   </Link>
                 </div>
@@ -201,10 +201,9 @@ export default function AdminSignin() {
           100% { transform: translateY(0px) translateX(0px) scale(1); }
         }
         .dots-mask {
-          background-image:
-            radial-gradient(currentColor 1px, transparent 1px);
+          background-image: radial-gradient(currentColor 1px, transparent 1px);
           background-size: 18px 18px;
-          color: #0f172a;
+          color: #fff;
           mask-image: radial-gradient(circle at center, black 55%, transparent 72%);
         }
       `}</style>
@@ -212,9 +211,10 @@ export default function AdminSignin() {
   );
 }
 
+/* ICONS */
 function LogoIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6 text-emerald-600">
+    <svg viewBox="0 0 24 24" className="h-6 w-6 text-emerald-400">
       <path
         d="M12 3l3.09 6.26L22 10.27l-5 4.9 1.18 7.06L12 18.9 5.82 22.23 7 15.17l-5-4.9 6.91-1.01L12 3z"
         fill="currentColor"
@@ -244,7 +244,7 @@ function LockIcon() {
 }
 function ShieldIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5 text-emerald-600">
+    <svg viewBox="0 0 24 24" className="h-5 w-5 text-emerald-400">
       <path
         fill="currentColor"
         d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"
@@ -254,7 +254,7 @@ function ShieldIcon() {
 }
 function SparklesIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5 text-pink-600">
+    <svg viewBox="0 0 24 24" className="h-5 w-5 text-pink-400">
       <path
         fill="currentColor"
         d="M5 3l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4zm14 6l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2zm-6 5l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4z"
@@ -265,30 +265,22 @@ function SparklesIcon() {
 function ArrowRightIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4">
-      <path
-        fill="currentColor"
-        d="M13 5l7 7-7 7v-4H4v-6h9V5z"
-      />
+      <path fill="currentColor" d="M13 5l7 7-7 7v-4H4v-6h9V5z" />
     </svg>
   );
 }
-
 function LightningIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 text-indigo-600">
-      <path
-        fill="currentColor"
-        d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"
-      />
+    <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 text-indigo-400">
+      <path fill="currentColor" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" />
     </svg>
   );
 }
-
 function DashboardSparklesIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
-      className="h-6 w-6 text-gray-700 dark:text"
+      className="h-6 w-6 text-slate-300"
       fill="none"
       stroke="currentColor"
       strokeWidth={1.8}
@@ -302,4 +294,3 @@ function DashboardSparklesIcon() {
     </svg>
   );
 }
-

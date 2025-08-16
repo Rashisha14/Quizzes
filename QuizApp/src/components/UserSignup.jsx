@@ -57,29 +57,29 @@ export default function UserSignup() {
             <li className="flex items-start gap-3 rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <TrophyIcon />
               <div>
-                <p className="font-semibold">Compete & win</p>
-                <p className="text-gray-500">Climb the global leaderboard</p>
+                <p className="font-semibold text-white">Compete & win</p>
+                <p className="text-gray-400">Climb the global leaderboard</p>
               </div>
             </li>
             <li className="flex items-start gap-3 rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <LightningIcon />
               <div>
-                <p className="font-semibold">Quick access</p>
-                <p className="text-gray-500">One tap to your quizzes</p>
+                <p className="font-semibold text-white">Quick access</p>
+                <p className="text-gray-400">One tap to your quizzes</p>
               </div>
             </li>
             <li className="flex items-start gap-3 rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <ShieldIcon />
               <div>
-                <p className="font-semibold">Privacy first</p>
-                <p className="text-gray-500">Your data stays protected</p>
+                <p className="font-semibold text-white">Privacy first</p>
+                <p className="text-gray-400">Your data stays protected</p>
               </div>
             </li>
             <li className="flex items-start gap-3 rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-sm transform transition-transform duration-300 hover:scale-110">
               <SparklesIcon />
               <div>
-                <p className="font-semibold">Beautiful UI</p>
-                <p className="text-gray-500">Clean, distraction-free design</p>
+                <p className="font-semibold text-white">Beautiful UI</p>
+                <p className="text-gray-400">Clean, distraction-free design</p>
               </div>
             </li>
           </ul>
@@ -100,26 +100,6 @@ export default function UserSignup() {
               </div>
 
               <form onSubmit={submit} className="space-y-4">
-                <div>
-                  <label htmlFor="username" className="mb-1 block text-sm font-medium text-gray-300">
-                    Username
-                  </label>
-                  <div className="relative">
-                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                      <UserIcon className="h-4 w-4 text-gray-500" />
-                    </span>
-
-                    <input
-                      id="username"
-                      name="username"
-                      type="text"
-                      value={form.username}
-                      onChange={onChange}
-                      className="w-full rounded-lg border border-gray-700 bg-gray-800 px-10 py-2 text-gray-100 outline-none ring-amber-400 placeholder:text-gray-500 focus:border-amber-400 focus:ring-2"
-                      placeholder="Enter your username"
-                    />
-                  </div>
-                </div>
 
                 <div>
                   <label htmlFor="name" className="mb-1 block text-sm font-medium text-gray-300">
@@ -140,6 +120,29 @@ export default function UserSignup() {
                     />
                   </div>
                 </div>
+                
+                <div>
+                  <label htmlFor="username" className="mb-1 block text-sm font-medium text-gray-300">
+                    Username
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                      <UserIcon className="h-4 w-4 text-gray-500" />
+                    </span>
+
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      value={form.username}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-gray-700 bg-gray-800 px-10 py-2 text-gray-100 outline-none ring-amber-400 placeholder:text-gray-500 focus:border-amber-400 focus:ring-2"
+                      placeholder="Choose a username"
+                    />
+                  </div>
+                </div>
+
+                
 
                 <div>
                   <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-300">
