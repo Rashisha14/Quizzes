@@ -124,7 +124,7 @@ function UserQuiz() {
       {/* Header */}
       <div className="flex justify-between items-center flex-wrap mb-12">
         <h2 className="text-3xl font-extrabold drop-shadow-md">
-          Hello, <span className="text-emerald-400">{username}</span>
+          Welcome, <span className="text-emerald-400 animate-pulse">{username}</span>
         </h2>
 
         {/* Search */}
@@ -150,6 +150,7 @@ function UserQuiz() {
       <h1 className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-white to-emerald-600 mb-10 drop-shadow-lg">
         Available Quizzes
       </h1>
+      <br></br>
 
       {/* List */}
       <div className="flex flex-wrap justify-center gap-10">
