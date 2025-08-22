@@ -180,7 +180,7 @@ function QuizDetails() {
                       })}
                     </div>
 
-                    {/* Show not answered label if skipped */}
+                    {/* Show not answered label if skipped the question */}
                     {!userAns && (
                       <p className="mt-3 text-sm text-yellow-400 font-medium">
                         ⚠ Not Answered
