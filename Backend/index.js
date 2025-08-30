@@ -47,7 +47,7 @@ app.post("/user/signin", async (req, res) => {
     }
 
     const token = JWT.sign({ username: user.username, id: user.id }, JWT_Pass,);
-    
+
 
     res.json({
       message: "Signin successful",
@@ -318,7 +318,7 @@ app.post("/admin/quiz", async (req, res) => {
 });
 
 
-//user post answer
+// user post answer
 app.post("/user/quiz/:id", async (req, res) => {
   const token = req.headers.token;
   const quizId = req.params.id;
@@ -328,15 +328,7 @@ app.post("/user/quiz/:id", async (req, res) => {
   try {
     const decoded = JWT.verify(token, JWT_Pass);
     const userId = decoded.id;
-    const { responses } = req.body;
-
-    // Sample input {
-    //   "responses": [
-    //     { "questionId": "uuid-1", "selectedOptionId": "uuid-2" },
-    //     { "questionId": "uuid-3", "selectedOptionId": "uuid-4" }
-    //   ]
-    // }
-
+    const { responses, timeTaken } = req.body; // receive timeTaken from frontend
 
     // Create responses
     await prisma.response.createMany({
@@ -359,7 +351,7 @@ app.post("/user/quiz/:id", async (req, res) => {
     const totalAttended = responses.length;
     const totalCorrect = correctOptions.length;
 
-    // Store in leaderboard
+    // Get or create leaderboard
     let leaderboard = await prisma.leaderboard.findUnique({
       where: { quizid: quizId },
     });
@@ -367,25 +359,26 @@ app.post("/user/quiz/:id", async (req, res) => {
     if (!leaderboard) {
       leaderboard = await prisma.leaderboard.create({
         data: {
-          quiz: { connect: { id: quizId } }
+          quiz: { connect: { id: quizId } },
         },
       });
     }
 
-    if (leaderboard) {
-      await prisma.leaderboardEntry.create({
-        data: {
-          userId,
-          score: totalCorrect,
-          leaderboardId: leaderboard.id,
-        },
-      });
-    }
+    // Create leaderboard entry with timeTaken
+    await prisma.leaderboardEntry.create({
+      data: {
+        userId,
+        leaderboardId: leaderboard.id,
+        score: totalCorrect,
+        timeTaken, // 🆕 save time taken
+      },
+    });
 
     res.json({
       message: "Responses submitted",
       totalAttended: "Total attended " + totalAttended,
       totalCorrect: "Total Correct " + totalCorrect,
+      timeTaken,
     });
   } catch (err) {
     console.error("Response submission error:", err);
@@ -402,7 +395,7 @@ app.get("/user/attempted", async (req, res) => {
     const decoded = JWT.verify(token, JWT_Pass);
     const userId = decoded.id;
 
-    
+
     const responses = await prisma.response.findMany({
       where: { userId },
       include: {
@@ -518,13 +511,16 @@ app.get("/user/results/:id", async (req, res) => {
       return res.status(404).json({ message: "Leaderboard not found for this quiz" });
     }
 
+  
     // Format response
     const formatted = leaderboard.entries.map((entry, index) => ({
       rank: index + 1,
       name: entry.user.name,
       username: entry.user.username,
-      score: entry.score
+      score: entry.score,
+      timeTaken: entry.timeTaken 
     }));
+
 
     res.json({
       quizid: leaderboard.quizid,
@@ -629,4 +625,7 @@ app.get("/admin/results/:id", async (req, res) => {
 
 
 //  Start the server
-app.listen(3000, () => console.log("Server running on port 3000"));
+app.listen(3000, "0.0.0.0", () => {
+  console.log("Running on 0.0.0.0:3000");
+});
+

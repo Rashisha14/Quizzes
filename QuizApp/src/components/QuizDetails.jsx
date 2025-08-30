@@ -28,17 +28,67 @@ function QuizDetails() {
   const [result, setResult] = useState(null);
   const [redirectCountdown, setRedirectCountdown] = useState(120);
   const [reviewIndex, setReviewIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(null);
+
+  // helper to format time
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s < 10 ? "0" : ""}${s}`;
+  };
+
 
   // Fetch quiz
   useEffect(() => {
     axios
       .get(`http://localhost:3000/user/quiz/${id}`, { headers: { token } })
-      .then((res) => setQuiz(res.data))
+      .then((res) => {
+        setQuiz(res.data);
+        // total time = 1 min per question
+        setTimeLeft(res.data.questions.length * 60);
+      })
       .catch((err) => {
         console.error("Error fetching quiz:", err);
         alert("Failed to fetch quiz");
       });
   }, [id, token]);
+  useEffect(() => {
+    if (timeLeft === null || result) return;
+    if (timeLeft <= 0) {
+      handleSubmit(); // auto-submit
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft, result]);
+
+  //: warning at 30s
+  useEffect(() => {
+    if (timeLeft === 30) {
+      alert("⚠ Only 30 seconds left!");
+    }
+  }, [timeLeft]);
+  // countdown to redirect after result
+  useEffect(() => {
+    if (result) {
+      const timer = setInterval(() => {
+        setRedirectCountdown((c) => {
+          if (c <= 1) {
+            clearInterval(timer);
+            navigate("/user/dashboard");
+            return 0;
+          }
+          return c - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [result, navigate]);
+
 
   const handleOptionSelect = (questionId, optionId) => {
     setResponses((prev) => ({
@@ -48,45 +98,54 @@ function QuizDetails() {
   };
 
   const handleSubmit = async () => {
-    const formattedResponses = Object.entries(responses).map(
-      ([questionId, selectedOptionId]) => ({
-        questionId,
-        selectedOptionId,
-      })
+  const formattedResponses = Object.entries(responses).map(
+    ([questionId, selectedOptionId]) => ({
+      questionId,
+      selectedOptionId,
+    })
+  );
+
+  if (formattedResponses.length === 0) {
+    alert("Please attempt at least one question.");
+    return;
+  }
+
+  setSubmitting(true);
+
+  // Calculate time taken
+  const totalTime = quiz.questions.length * 60; // total quiz time in seconds
+  const timeTaken = totalTime - (timeLeft || 0); // seconds spent
+
+  try {
+    const res = await axios.post(
+      `http://localhost:3000/user/quiz/${id}`,
+      { 
+        responses: formattedResponses,
+        timeTaken, // 🆕 send timeTaken
+      },
+      { headers: { token } }
     );
 
-    if (formattedResponses.length === 0) {
-      alert("Please attempt at least one question.");
-      return;
-    }
+    setResult(res.data);
 
-    setSubmitting(true);
-    try {
-      const res = await axios.post(
-        `http://localhost:3000/user/quiz/${id}`,
-        { responses: formattedResponses },
-        { headers: { token } }
-      );
+    // countdown redirect
+    let countdown = 180;
+    const interval = setInterval(() => {
+      countdown--;
+      setRedirectCountdown(countdown);
+      if (countdown === 0) {
+        clearInterval(interval);
+        navigate("/user/quiz");
+      }
+    }, 1000);
+  } catch (err) {
+    console.error("Submission error:", err);
+    alert("Failed to submit responses");
+  } finally {
+    setSubmitting(false);
+  }
+};
 
-      setResult(res.data);
-
-      // countdown redirect
-      let countdown = 180;
-      const interval = setInterval(() => {
-        countdown--;
-        setRedirectCountdown(countdown);
-        if (countdown === 0) {
-          clearInterval(interval);
-          navigate("/user/quiz");
-        }
-      }, 1000);
-    } catch (err) {
-      console.error("Submission error:", err);
-      alert("Failed to submit responses");
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   // Loading
   if (!quiz)
@@ -121,7 +180,7 @@ function QuizDetails() {
 
           {/* Completion icon + title */}
           <div className="flex flex-col items-center">
-            <LightningIcon />
+            <LightningIcon className="animate-ping" />
             <h3 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-indigo-300 drop-shadow-lg">
               Quiz Completed!
             </h3>
@@ -142,7 +201,7 @@ function QuizDetails() {
               <p className="text-base">Attempted: {totalAttended}</p>
               <p className="text-base">Correct: {totalCorrect}</p>
               <div className="flex justify-center">
-                <CheckCircle className="w-5 h-5 text-green-400" />
+                <CheckCircle className="w-5 h-5 text-green-400 animate-ping" />
               </div>
               <p className="text-2xl font-bold text-emerald-300 mt-2">Score: {totalCorrect}</p>
               <p className="text-2xl font-bold text-emerald-300">Accuracy: {accuracy}%</p>
@@ -239,6 +298,10 @@ function QuizDetails() {
         <div className="w-[600px] h-[600px] bg-emerald-600/20 blur-3xl rounded-full absolute top-20 left-10 animate-pulse" />
         <div className="w-[500px] h-[500px] bg-indigo-600/20 blur-3xl rounded-full absolute bottom-20 right-10 animate-pulse" />
       </div>
+      {/*  Timer UI */}
+      <div className="fixed top-5 right-5 bg-yellow-500/20 border-2 border-yellow-500 px-4 py-2 rounded-xl text-lg font-bold shadow-md flex items-center gap-2">
+        <CountdownIcon/> {formatTime(timeLeft)}
+      </div>
 
       {/* Title */}
       <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-emerald-400 mb-10 drop-shadow-lg text-center">
@@ -278,8 +341,8 @@ function QuizDetails() {
             <label
               key={opt.id}
               className={`flex items-center gap-3 px-5 py-3 rounded-xl cursor-pointer border transition-all duration-300 text-base ${responses[q.id] === opt.id
-                  ? "bg-gradient-to-r from-emerald-600/80 to-emerald-800/10 border-emerald-400 text-white shadow-md scale-[1.02]"
-                  : "border-gray-600 hover:bg-white/10 hover:scale-[1.01]"
+                ? "bg-gradient-to-r from-emerald-600/80 to-emerald-800/10 border-emerald-400 text-white shadow-md scale-[1.02]"
+                : "border-gray-600 hover:bg-white/10 hover:scale-[1.01]"
                 }`}
             >
               <input
@@ -328,5 +391,28 @@ function QuizDetails() {
     </div>
   );
 }
+
+function CountdownIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="h-6 w-6 text-gray-400"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* Circle clock outline */}
+      <circle cx="12" cy="13" r="8" />
+      {/* Clock hands */}
+      <path d="M12 13V9" />   {/* hour hand */}
+      <path d="M12 13h4" />   {/* minute hand */}
+      {/* Small top button (like stopwatch) */}
+      <path d="M9 3h6" />
+    </svg>
+  );
+}
+
 
 export default QuizDetails;

@@ -13,7 +13,7 @@ model User {
   name     String
   password String
 
-  responses Response[]
+  responses          Response[]
   leaderboardEntries LeaderboardEntry[]
 }
 
@@ -27,33 +27,33 @@ model Admin {
 }
 
 model Quiz {
-  id          String            @id @default(uuid())
+  id          String       @id @default(uuid())
   title       String
-  code        String    @unique
+  code        String       @unique
   adminId     String
-  hidden      Boolean           @default(false)
-  admin       Admin             @relation(fields: [adminId], references: [id])
+  hidden      Boolean      @default(false)
+  admin       Admin        @relation(fields: [adminId], references: [id])
   questions   Question[]
   leaderboard Leaderboard?
-  createdAt   DateTime          @default(now())
+  createdAt   DateTime     @default(now())
 }
 
 model Leaderboard {
-  id      String @id @default(uuid())
-  quizid  String @unique
-  quiz    Quiz   @relation(fields: [quizid], references: [id])
+  id      String             @id @default(uuid())
+  quizid  String             @unique
+  quiz    Quiz               @relation(fields: [quizid], references: [id])
   entries LeaderboardEntry[]
 }
 
 model LeaderboardEntry {
-  id            String     @id @default(uuid())
+  id            String      @id @default(uuid())
   userId        String
   leaderboardId String
   score         Int
-  createdAt     DateTime   @default(now())
-
-  user         User         @relation(fields: [userId], references: [id])
-  leaderboard  Leaderboard  @relation(fields: [leaderboardId], references: [id])
+  createdAt     DateTime    @default(now())
+  timeTaken     Int 
+  user          User        @relation(fields: [userId], references: [id])
+  leaderboard   Leaderboard @relation(fields: [leaderboardId], references: [id])
 }
 
 model Question {

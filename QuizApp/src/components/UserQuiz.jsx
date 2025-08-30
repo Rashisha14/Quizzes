@@ -176,4 +176,10 @@ function UserQuiz() {
   );
 }
 
+/* Keep your no-scrollbar CSS */
+<style>{`
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+`}</style>
+
 export default UserQuiz;

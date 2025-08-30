@@ -10,71 +10,98 @@ function LeaderboardPage() {
 
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [maxScore, setMaxScore] = useState(null); // NEW
+  const [maxScore, setMaxScore] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/user/results/${id}`, { headers: { token } })
-      .then((res) => {
-        const lb = res.data?.leaderboard || [];
+  const fetchLeaderboard = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/user/results/${id}`,
+        { headers: { token } }
+      );
 
-        // Prefer explicit value from API if available
-        const apiOutOfCandidates = [
-          res.data?.maxScore,
-          res.data?.totalScore,
-          res.data?.total,
-          res.data?.outOf,
-          res.data?.meta?.maxScore,
-        ];
-        const fromApi = apiOutOfCandidates
-          .map((n) => Number(n))
-          .find((n) => Number.isFinite(n) && n > 0);
+      const lb = res.data?.leaderboard || [];
 
-        // Otherwise infer from leaderboard entries
-        const fromEntries = Math.max(
-          0,
-          ...lb.map((e) =>
-            Number(
-              e?.totalScore ??
-                e?.maxScore ??
-                e?.outOf ??
-                e?.max ??
-                e?.score
-            ) || 0
-          )
-        );
+      // Debug: check what we actually get from backend
+      console.log("Raw leaderboard:", lb);
 
-        setLeaderboard(lb);
-        setMaxScore(fromApi || (Number.isFinite(fromEntries) && fromEntries > 0 ? fromEntries : null));
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("Failed to load leaderboard");
-        setLoading(false);
-      });
-  }, [id, token]);
+      // Ensure timeTaken is a number
+      const parsedLeaderboard = lb.map((entry) => ({
+        ...entry,
+        score: Number(entry.score ?? 0),
+        timeTaken: Number(entry.timeTaken ?? 0), // make sure timeTaken is numeric
+      }));
+
+      // Determine maxScore
+      const apiOutOfCandidates = [
+        res.data?.maxScore,
+        res.data?.totalScore,
+        res.data?.total,
+        res.data?.outOf,
+        res.data?.meta?.maxScore,
+      ];
+      const fromApi = apiOutOfCandidates
+        .map((n) => Number(n))
+        .find((n) => Number.isFinite(n) && n > 0);
+
+      const fromEntries = Math.max(
+        0,
+        ...parsedLeaderboard.map((e) => e.score)
+      );
+
+      setLeaderboard(parsedLeaderboard);
+      setMaxScore(
+        fromApi || (Number.isFinite(fromEntries) && fromEntries > 0 ? fromEntries : null)
+      );
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to load leaderboard");
+      setLoading(false);
+    }
+  };
+
+  fetchLeaderboard();
+}, [id, token]);
+
 
   const toNum = (v, fallback = Number.POSITIVE_INFINITY) => {
     const n = Number(v);
     return Number.isFinite(n) ? n : fallback;
   };
 
-  const sorted = [...leaderboard].sort((a, b) => toNum(a.rank) - toNum(b.rank));
+  // Sort by score descending, then timeTaken ascending
+  const sorted = [...leaderboard].sort((a, b) => {
+    const scoreA = Number(a.score ?? 0);
+    const scoreB = Number(b.score ?? 0);
+    if (scoreA === scoreB) {
+      return Number(a.timeTaken ?? Infinity) - Number(b.timeTaken ?? Infinity);
+    }
+    return scoreB - scoreA;
+  });
+
   const top = sorted[0];
 
-  // average score (number only)
   const avgScore =
     leaderboard.length > 0
       ? (
-          leaderboard.reduce((sum, p) => sum + (p.score ?? 0), 0) /
-          leaderboard.length
-        ).toFixed(1)
+        leaderboard.reduce((sum, p) => sum + Number(p.score ?? 0), 0) /
+        leaderboard.length
+      ).toFixed(1)
       : 0;
 
-  const outOf = Number.isFinite(maxScore) && maxScore > 0 ? maxScore : null; // denominator to show
+  const outOf = Number.isFinite(maxScore) && maxScore > 0 ? maxScore : null;
 
   const medal = (rank) => (rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : rank);
+
+  // Convert seconds to mm:ss
+  const formatTime = (time) => {
+    const seconds = Number(time);
+    if (isNaN(seconds) || seconds < 0) return "00:00";
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
 
   return (
     <div className="h-screen w-screen bg-gradient-to-br from-gray-900 via-black to-gray-950 text-gray-100 font-sans flex flex-col items-center py-6 px-4 overflow-hidden">
@@ -96,7 +123,6 @@ function LeaderboardPage() {
           <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl border border-white/10">
             <Star className="w-5 h-5 text-yellow-400" />
             <span className="font-semibold text-yellow-400">
-              {/* show /outOf if we know it */}
               Avg: {avgScore}{outOf ? ` / ${outOf}` : ""}
             </span>
           </div>
@@ -126,7 +152,8 @@ function LeaderboardPage() {
               <p className="text-xl font-semibold">{top.name || "-"}</p>
               <p className="text-sm text-gray-400 mb-3">@{top.username || "unknown"}</p>
               <p className="text-md font-bold text-emerald-300">
-                Score : {top.score ?? 0}{outOf ? `/${outOf}` : ""}
+                Score : {top.score ?? 0}{outOf ? `/${outOf}` : ""} <br />
+                Time: {formatTime(top.timeTaken)}
               </p>
             </div>
           ) : null}
@@ -141,12 +168,13 @@ function LeaderboardPage() {
                     <th className="px-4 py-2">Name</th>
                     <th className="px-4 py-2">Username</th>
                     <th className="px-4 py-2 text-center">Score</th>
+                    <th className="px-4 py-2 text-center">Time Taken</th>
                   </tr>
                 </thead>
                 <tbody>
                   {sorted.map((entry, index) => {
-                    if (index === 0) return null;
-                    const rank = toNum(entry.rank);
+                    const rank = index + 1;
+                    console.log("Entry:", entry.username, entry.timeTaken);
                     return (
                       <tr
                         key={entry.username || index}
@@ -157,6 +185,9 @@ function LeaderboardPage() {
                         <td className="px-4 py-2 text-gray-300">@{entry.username || "-"}</td>
                         <td className="px-4 py-2 text-center font-semibold text-emerald-300">
                           {entry.score ?? 0}{outOf ? ` / ${outOf}` : ""}
+                        </td>
+                        <td className="px-4 py-2 text-center text-gray-200 font-medium">
+                          {formatTime(entry.timeTaken)}
                         </td>
                       </tr>
                     );
