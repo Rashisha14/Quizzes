@@ -70,7 +70,7 @@ function LeaderboardPage() {
     return Number.isFinite(n) ? n : fallback;
   };
 
-  // Sort by score descending, then timeTaken ascending
+  // Sort by score descending, then timeTaken 
   const sorted = [...leaderboard].sort((a, b) => {
     const scoreA = Number(a.score ?? 0);
     const scoreB = Number(b.score ?? 0);
