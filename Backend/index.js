@@ -478,7 +478,7 @@ app.get("/user/participation", async (req, res) => {
   }
 });
 
-// All Leaderboard for  User by id
+// All Leaderboard for User by id
 app.get("/user/results/:id", async (req, res) => {
   const token = req.headers.token;
   if (!token) return res.status(400).json({ message: "Token missing" });
@@ -486,7 +486,6 @@ app.get("/user/results/:id", async (req, res) => {
   try {
     const decoded = JWT.verify(token, JWT_Pass);
     const quizid = req.params.id;
-
 
     const leaderboard = await prisma.leaderboard.findFirst({
       where: { quizid },
@@ -500,8 +499,13 @@ app.get("/user/results/:id", async (req, res) => {
               }
             }
           },
-          orderBy: {
-            score: 'desc'
+          orderBy: { score: "desc" }
+        },
+        quiz: {
+          select: {
+            questions: {
+              select: { id: true } // only fetch question IDs
+            }
           }
         }
       }
@@ -511,19 +515,18 @@ app.get("/user/results/:id", async (req, res) => {
       return res.status(404).json({ message: "Leaderboard not found for this quiz" });
     }
 
-  
     // Format response
     const formatted = leaderboard.entries.map((entry, index) => ({
       rank: index + 1,
       name: entry.user.name,
       username: entry.user.username,
       score: entry.score,
-      timeTaken: entry.timeTaken 
+      timeTaken: entry.timeTaken
     }));
-
 
     res.json({
       quizid: leaderboard.quizid,
+      totalQuestions: leaderboard.quiz.questions.length, // ✅ send total questions
       leaderboard: formatted
     });
 
@@ -532,6 +535,7 @@ app.get("/user/results/:id", async (req, res) => {
     return res.status(401).json({ message: "Invalid token" });
   }
 });
+
 
 
 
