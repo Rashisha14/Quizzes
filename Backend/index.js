@@ -515,7 +515,7 @@ app.get("/user/results/:id", async (req, res) => {
       return res.status(404).json({ message: "Leaderboard not found for this quiz" });
     }
 
-    // Format 
+    // Format response
     const formatted = leaderboard.entries.map((entry, index) => ({
       rank: index + 1,
       name: entry.user.name,
