@@ -147,7 +147,7 @@ function LeaderboardPage() {
         </div>
       )}
 
-      {/* 3rd */}
+      {/ */}
       {sorted[2] && (
         <div className="flex-1 max-w-[220px] h-[150px] bg-gradient-to-br from-amber-600/30 to-yellow-700/20 backdrop-blur-lg rounded-2xl shadow-xl flex flex-col items-center justify-center p-4 border border-amber-500/30">
           <div className="text-3xl mb-1">🥉</div>
