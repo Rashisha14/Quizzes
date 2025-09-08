@@ -12,7 +12,7 @@ import Starting from './components/Starting'
 import './index.css';
 
 
-function 
+function App() {
   return (
     <BrowserRouter>
       <Routes>

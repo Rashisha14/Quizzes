@@ -420,7 +420,7 @@ app.get("/user/attempted", async (req, res) => {
 });
 
 
-// All Leaderboard 
+// All Leaderboard for  User
 app.get("/user/results", async (req, res) => {
 
   const token = req.headers.token;
