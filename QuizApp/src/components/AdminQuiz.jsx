@@ -31,7 +31,7 @@ function AdminQuiz() {
     navigate(`/admin/quiz/${id}/leaderboard`);
   };
 
-  // Toggle quiz visibility
+  // Toggle quiz visibility change 
   const toggleQuizVisibility = async (id, hidden) => {
     try {
       await axios.patch(

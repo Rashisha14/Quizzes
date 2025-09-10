@@ -205,7 +205,7 @@ app.get("/admin/quiz/:id", async (req, res) => {
 
 
 
-// Toggle quiz visibility API for Admmin
+// Toggle quiz visibility API for Admin
 app.patch("/admin/quiz/:id/toggle", async (req, res) => {
   const token = req.headers.token;
   if (!token) return res.status(400).json({ message: "Token missing" });
