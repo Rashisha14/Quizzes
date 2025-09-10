@@ -382,7 +382,7 @@ function QuizDetails() {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="flex items-center gap-2 bg-emerald-200 hover:bg-emerald-400 px-10 py-3 rounded-xl transition font-bold shadow-md text-black"
+            className="flex items-center gap-2 bg-white/10 hover:bg-amber-400 px-10 py-3 rounded-xl transition font-bold shadow-md "
           >
             {submitting ? "Submitting..." : "Submit Quiz"}
           </button>

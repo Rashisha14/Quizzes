@@ -205,6 +205,40 @@ app.get("/admin/quiz/:id", async (req, res) => {
 
 
 
+// Toggle quiz visibility API for Admmin
+app.patch("/admin/quiz/:id/toggle", async (req, res) => {
+  const token = req.headers.token;
+  if (!token) return res.status(400).json({ message: "Token missing" });
+
+  try {
+    const decoded = JWT.verify(token, JWT_Pass);
+    const adminId = decoded.id;
+    const quizId = req.params.id;
+
+    // Find quiz owned by this admin
+    const quiz = await prisma.quiz.findFirst({
+      where: {
+        id: quizId,
+        adminId: adminId
+      }
+    });
+
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    // Toggle hidden status
+    const updatedQuiz = await prisma.quiz.update({
+      where: { id: quizId },
+      data: { hidden: !quiz.hidden },
+    });
+
+    res.json(updatedQuiz);
+  } catch (err) {
+    console.error("Toggle quiz error:", err);
+    return res.status(401).json({ message: "Invalid token or server error" });
+  }
+});
 
 
 // user get Quiz by id

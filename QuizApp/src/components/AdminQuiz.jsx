@@ -6,7 +6,7 @@ import '../App.css';
 function AdminQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const token = localStorage.getItem("adminToken");
-  const adminName = localStorage.getItem("adminUsername"); 
+  const adminName = localStorage.getItem("adminUsername");
   const navigate = useNavigate();
 
   // Fetch quizzes
@@ -76,7 +76,7 @@ function AdminQuiz() {
             >
               <h2
                 className="text-2xl font-bold text-purple-700 "
-                
+
               >
                 {quiz.title}
               </h2>
@@ -97,21 +97,28 @@ function AdminQuiz() {
               {/* Action buttons */}
               <div className="flex gap-3 mt-4">
                 <button
-                  onClick={() => goToLeaderboard(quiz.id)}
-                  className="px-4 py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition"
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent parent div click
+                    goToLeaderboard(quiz.id);
+                  }}
+                  className="px-4 py-2 rounded-xl cursor-pointer bg-blue-600 text-white hover:bg-blue-700 transition"
                 >
                   View Leaderboard
                 </button>
+
                 <button
-                  onClick={() => toggleQuizVisibility(quiz.id, quiz.hidden)}
-                  className={`px-4 py-2 rounded-xl text-white transition ${
-                    quiz.hidden
-                      ? "bg-green-500 hover:bg-green-600"
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent parent div click
+                    toggleQuizVisibility(quiz.id, quiz.hidden);
+                  }}
+                  className={`px-4 py-2 rounded-xl cursor-pointer text-white transition ${quiz.hidden
+                      ? "bg-green-500 hover:bg-green-600 "
                       : "bg-red-500 hover:bg-red-600"
-                  }`}
+                    }`}
                 >
                   {quiz.hidden ? "Publish Quiz" : "Hide Quiz"}
                 </button>
+
               </div>
             </div>
           ))
