@@ -162,7 +162,6 @@ app.get("/user/quiz", async (req, res) => {
 
 // Admin get Quiz by id
 app.get("/admin/quiz/:id", async (req, res) => {
-
   const token = req.headers.token;
   if (!token) return res.status(400).json({ message: "Token missing" });
 
@@ -171,18 +170,39 @@ app.get("/admin/quiz/:id", async (req, res) => {
     const adminid = decoded.id;
     const quizid = req.params.id;
 
-    const quizs = await prisma.quiz.findFirst({
+    const quiz = await prisma.quiz.findFirst({
       where: {
         adminId: adminid,
         id: quizid,
       },
+      include: {
+        questions: {
+          include: {
+            options: true,
+          },
+        },
+        leaderboard: {
+          include: {
+            entries: {
+              include: {
+                user: true, // so you get usernames
+              },
+              orderBy: {
+                score: "desc", // sort by score
+              },
+            },
+          },
+        },
+      },
     });
-    res.json(quizs);
+
+    res.json(quiz);
   } catch (err) {
     console.error("Token verify error:", err);
     return res.status(401).json({ message: "Invalid token" });
   }
 });
+
 
 
 
@@ -621,9 +641,6 @@ app.get("/admin/results/:id", async (req, res) => {
     return res.status(401).json({ message: "Invalid token" });
   }
 });
-
-
-
 
 
 
