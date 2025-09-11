@@ -24,7 +24,9 @@ export default function UserSignin() {
       setLoading(true);
       const res = await axios.post("http://localhost:3000/user/signin", form);
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("username", form.username);
+      localStorage.setItem("username", res.data.user.username);
+      localStorage.setItem("name", res.data.user.name);
+
       navigate("/user/quiz");
     } catch (error) {
       setErr("Login failed. Please check your credentials.");
@@ -92,103 +94,103 @@ export default function UserSignin() {
         {/* Right: sign-in card */}
         <section className="order-1 md:order-2">
           <div className="flex min-h-140 items-center justify-center ">
-          <div className="mx-auto w-full max-w-md rounded-2xl border  border-gray-700 bg-gray-900 p-8">
-            <div className="mb-6 text-center">
-              <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100">
-                <LogoIcon />
-              </div>
-              <h2 className="text-2xl font-bold text-white">Sign in</h2>
-              <p className="mt-1 text-sm text-slate-400">
-                Access your QuizArrow account
-              </p>
-            </div>
-
-            <form onSubmit={submit} className="space-y-4">
-              <div>
-                <label htmlFor="username" className="mb-1 block text-sm font-medium text-gray-300">
-                  Username
-                </label>
-                <div className="relative">
-                  <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                    <UserIcon className="h-4 w-4 text-slate-500" />
-                  </span>
-                  <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    value={form.username}
-                    onChange={onChange}
-                    className="w-full rounded-lg border border-gray-700 bg-gray-800 px-10 py-2 text-gray-100 outline-none ring-amber-400 placeholder:text-gray-500 focus:border-amber-400 focus:ring-2"
-                    placeholder="Enter your username"
-                    autoComplete="username"
-                  />
+            <div className="mx-auto w-full max-w-md rounded-2xl border  border-gray-700 bg-gray-900 p-8">
+              <div className="mb-6 text-center">
+                <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100">
+                  <LogoIcon />
                 </div>
+                <h2 className="text-2xl font-bold text-white">Sign in</h2>
+                <p className="mt-1 text-sm text-slate-400">
+                  Access your QuizArrow account
+                </p>
               </div>
 
-              <div>
-                <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-300">
-                  Password
-                </label>
-                <div className="relative">
-                  <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                    <LockIcon className="h-4 w-4 text-slate-500" />
-                  </span>
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPwd ? "text" : "password"}
-                    value={form.password}
-                    onChange={onChange}
-                    className="w-full rounded-lg border border-gray-700 bg-gray-800 px-10 py-2 text-gray-100 outline-none ring-amber-400 placeholder:text-gray-500 focus:border-amber-400 focus:ring-2"
-                    placeholder="••••••••"
-                    autoComplete="current-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPwd((s) => !s)}
-                    className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-400 hover:text-slate-200"
-                    aria-label="Toggle password visibility"
-                  >
-                    {showPwd ? "Hide" : "Show"}
-                  </button>
+              <form onSubmit={submit} className="space-y-4">
+                <div>
+                  <label htmlFor="username" className="mb-1 block text-sm font-medium text-gray-300">
+                    Username
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                      <UserIcon className="h-4 w-4 text-slate-500" />
+                    </span>
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      value={form.username}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-gray-700 bg-gray-800 px-10 py-2 text-gray-100 outline-none ring-amber-400 placeholder:text-gray-500 focus:border-amber-400 focus:ring-2"
+                      placeholder="Enter your username"
+                      autoComplete="username"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {err && (
-                <div className="rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-2 text-sm text-red-400">
-                  {err}
+                <div>
+                  <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-300">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+                      <LockIcon className="h-4 w-4 text-slate-500" />
+                    </span>
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPwd ? "text" : "password"}
+                      value={form.password}
+                      onChange={onChange}
+                      className="w-full rounded-lg border border-gray-700 bg-gray-800 px-10 py-2 text-gray-100 outline-none ring-amber-400 placeholder:text-gray-500 focus:border-amber-400 focus:ring-2"
+                      placeholder="••••••••"
+                      autoComplete="current-password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPwd((s) => !s)}
+                      className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-400 hover:text-slate-200"
+                      aria-label="Toggle password visibility"
+                    >
+                      {showPwd ? "Hide" : "Show"}
+                    </button>
+                  </div>
                 </div>
-              )}
 
-              
-              <button
-                type="submit"
-                disabled={loading}
-                className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-amber-500 px-4 py-2 font-semibold text-black shadow-sm transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {loading ? (
-                  <>
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/60 border-t-transparent" />
-                    Signing in…
-                  </>
-                ) : (
-                  <>
-                    <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                    Sign in
-                  </>
+                {err && (
+                  <div className="rounded-lg border border-red-500/50 bg-red-500/10 px-3 py-2 text-sm text-red-400">
+                    {err}
+                  </div>
                 )}
-              </button>
 
-              <div className="mt-3 flex items-center justify-between text-sm">
-                <Link to="/user/signup" className="font-medium text-amber-400 hover:text-amber-300">
-                  Create account
-                </Link>
-                <Link to="/admin/signup" className="text-gray-400 hover:text-gray-200">
-                  Sign up as Admin
-                </Link>
-              </div>
-            </form>
-          </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="group relative flex w-full items-center justify-center gap-2 rounded-lg bg-amber-500 px-4 py-2 font-semibold text-black shadow-sm transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {loading ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/60 border-t-transparent" />
+                      Signing in…
+                    </>
+                  ) : (
+                    <>
+                      <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                      Sign in
+                    </>
+                  )}
+                </button>
+
+                <div className="mt-3 flex items-center justify-between text-sm">
+                  <Link to="/user/signup" className="font-medium text-amber-400 hover:text-amber-300">
+                    Create account
+                  </Link>
+                  <Link to="/admin/signup" className="text-gray-400 hover:text-gray-200">
+                    Sign up as Admin
+                  </Link>
+                </div>
+              </form>
+            </div>
           </div>
         </section>
       </main>
