@@ -33,7 +33,7 @@ function AdminQuiz() {
   const goToQuiz = (id) => navigate(`/admin/quiz/${id}`);
   const goToLeaderboard = (id, e) => {
     e.stopPropagation();
-    navigate(`/admin/quiz/${id}/leaderboard`);
+    navigate(`/admin/results/${id}`);
   };
 
   const toggleQuizVisibility = async (id, hidden, e) => {

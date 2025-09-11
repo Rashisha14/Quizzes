@@ -594,39 +594,6 @@ app.get("/user/results/:id", async (req, res) => {
 });
 
 
-
-
-// All Leaderboard for Created by Admin
-app.get("/admin/results", async (req, res) => {
-  const token = req.headers.token;
-  if (!token) return res.status(400).json({ message: "Token missing" });
-
-  try {
-    const decoded = JWT.verify(token, JWT_Pass);
-    const adminId = decoded.id;
-
-
-    const list = await prisma.quiz.findMany({
-      where: {
-        adminId,
-        leaderboard: {
-          isNot: null
-        }
-      },
-      select: {
-        id: true,
-        title: true
-      }
-    });
-
-    res.json(list);
-
-  } catch (err) {
-    console.error("Error fetching admin quiz list with leaderboard:", err);
-    return res.status(401).json({ message: "Invalid token" });
-  }
-});
-
 // All Leaderboard for Admin by id
 app.get("/admin/results/:id", async (req, res) => {
   const token = req.headers.token;
@@ -665,7 +632,8 @@ app.get("/admin/results/:id", async (req, res) => {
       rank: index + 1,
       name: entry.user.name,
       username: entry.user.username,
-      score: entry.score
+      score: entry.score,
+      timeTaken: entry.timeTaken
     }));
 
     res.json({
