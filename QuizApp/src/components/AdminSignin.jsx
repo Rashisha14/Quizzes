@@ -24,7 +24,12 @@ export default function AdminSignin() {
       setLoading(true);
       const res = await axios.post("http://localhost:3000/admin/signin", form);
       localStorage.setItem("adminToken", res.data.token);
-      localStorage.setItem("adminUsername", form.username);
+      localStorage.setItem("adminUsername", res.data.admin.username);
+      localStorage.setItem("adminName", res.data.admin.name);
+
+
+
+
       navigate("/admin/quiz");
     } catch (error) {
       setErr("Login failed. Please check your credentials.");

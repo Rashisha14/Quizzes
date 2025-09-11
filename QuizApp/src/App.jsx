@@ -10,6 +10,7 @@ import QuizDetails from './components/QuizDetails';
 import LeaderboardPage from './components/LeaderboardPage'
 import Starting from './components/Starting'
 import AdminQuizDetail from './components/AdminQuizDetails';
+import CreateQuiz from './components/CreateQuiz';
 import './index.css';
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/admin/signin" element={<AdminSignin />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
         <Route path="/admin/quiz" element={<AdminQuiz />} />
+        <Route path="/admin/create" element={<CreateQuiz />} />
         <Route path="/user/quiz/:id" element={<QuizDetails />} />
         <Route path="/user/results/:id" element={<LeaderboardPage />} />
         <Route path="/admin/quiz/:id" element={<AdminQuizDetail />} />

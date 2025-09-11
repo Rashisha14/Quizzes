@@ -100,7 +100,10 @@ app.post("/admin/signin", async (req, res) => {
     res.json({
       message: "Signin successful",
       token,
-      admin
+      admin: {
+        username: admin.username,
+        name: admin.name,  
+      },
     });
   } catch (err) {
     console.error("Signin error:", err);
