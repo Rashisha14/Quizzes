@@ -319,29 +319,6 @@ app.post("/admin/quiz", async (req, res) => {
     const adminId = decoded.id;
     const { title, code, questions } = req.body;
 
-    //Sample Quiz {
-    //   "title": "Basic Math",
-    //    "code":"12345678"
-    //     "questions": [
-    //       {
-    //         "text": "2 + 2 = ?",
-    //         "options": [
-    //           { "text": "3", "isCorrect": false },
-    //           { "text": "4", "isCorrect": true },
-    //           { "text": "5", "isCorrect": false }
-    //         ]
-    //       },
-    //       {
-    //         "text": "5 x 1 = ?",
-    //         "options": [
-    //           { "text": "5", "isCorrect": true },
-    //           { "text": "1", "isCorrect": false },
-    //           { "text": "10", "isCorrect": false }
-    //         ]
-    //       }
-    //     ]
-    // }
-
 
     const newQuiz = await prisma.quiz.create({
       data: {
