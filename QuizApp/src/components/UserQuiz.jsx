@@ -1,10 +1,52 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Search, PlayCircle, Trophy, User, LogOut, Menu, X, Award, CheckSquare, XCircle, CheckCircle, Sparkles } from "lucide-react";
+import { Search, PlayCircle, Trophy, User, LogOut, Menu, X, Award, CheckSquare, XCircle, CheckCircle, Sparkles, PlusCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-function UserQuiz() {
+// Helper function to handle notifications
+const showNotification = (message, type, setNotification) => {
+  setNotification({ visible: true, message, type });
+  setTimeout(() => {
+    setNotification(prev => ({ ...prev, visible: false }));
+  }, 5000);
+};
+
+// Component for displaying notifications
+const Notification = ({ message, type, onClose }) => {
+  let bgColor, Icon;
+  switch (type) {
+    case 'success':
+      bgColor = 'bg-emerald-600/90';
+      Icon = CheckCircle;
+      break;
+    case 'error':
+      bgColor = 'bg-red-600/90';
+      Icon = XCircle;
+      break;
+    default:
+      bgColor = 'bg-blue-600/90';
+      Icon = CheckCircle;
+  }
+  return (
+    <motion.div
+      initial={{ x: 300, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 300, opacity: 0 }}
+      transition={{ duration: 0.5, type: "spring" }}
+      className={`fixed top-5 right-5 z-50 flex items-center gap-3 p-4 rounded-xl shadow-xl text-white ${bgColor} border border-white/10 backdrop-blur-md`}
+    >
+      <Icon size={24} />
+      <span className="font-medium text-sm">{message}</span>
+      <button onClick={onClose} className="text-white/80 hover:text-white transition">
+        <X size={20} />
+      </button>
+    </motion.div>
+  );
+};
+
+// Main UserQuiz component
+function App() {
   const [quizzes, setQuizzes] = useState([]);
   const [searchCode, setSearchCode] = useState("");
   const [attemptedIds, setAttemptedIds] = useState(new Set());
@@ -12,20 +54,14 @@ function UserQuiz() {
   const [notification, setNotification] = useState({ visible: false, message: '', type: '' });
   const [isLoading, setIsLoading] = useState(true);
 
+  // Retrieve user data from localStorage
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
   const name = localStorage.getItem("name");
   const navigate = useNavigate();
 
-  // Function to show custom notification
-  const showNotification = (message, type) => {
-    setNotification({ visible: true, message, type });
-    setTimeout(() => {
-      setNotification(prev => ({ ...prev, visible: false }));
-    }, 5000);
-  };
-
   useEffect(() => {
+    // Fetch quiz data and user's attempted quizzes
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -37,14 +73,14 @@ function UserQuiz() {
         setAttemptedIds(new Set(attemptedRes.data.quizIds || []));
       } catch (err) {
         console.error(err);
-        showNotification("Failed to fetch quizzes.", "error");
+        showNotification("Failed to fetch quizzes.", "error", setNotification);
       } finally {
         setIsLoading(false);
       }
     };
     fetchData();
   }, [token]);
-  
+
   // Real-time filtering logic
   const filteredQuizzes = quizzes.filter(quiz =>
     quiz.code?.toLowerCase().includes(searchCode.toLowerCase())
@@ -57,6 +93,7 @@ function UserQuiz() {
     navigate("/user/signin");
   };
 
+  // Component for an individual quiz card
   const QuizCard = ({ quiz }) => {
     const attempted = attemptedIds.has(quiz.id);
 
@@ -64,32 +101,38 @@ function UserQuiz() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.1)" }}
+        whileHover={{
+          y: -8,
+          boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
+          scale: 1.02
+        }}
         whileTap={{ scale: 0.98 }}
-        className={`cursor-pointer max-w-sm w-full rounded-2xl p-6 border backdrop-blur-sm shadow-lg transition duration-300 relative overflow-hidden
-          ${attempted 
-            ? "border-emerald-500/30 bg-gradient-to-br from-emerald-900/40 to-slate-900/90" 
-            : "border-slate-700/40 bg-gradient-to-br from-slate-800/40 to-slate-900/90"}`}
+        className={`relative cursor-pointer w-full rounded-2xl p-6 border transition duration-300 overflow-hidden group
+        ${attempted
+          ? "border-emerald-500/30 bg-gradient-to-br from-slate-900/60 to-slate-950/80"
+          : "border-slate-700/40 bg-gradient-to-br from-slate-800/40 to-slate-900/40"}`}
       >
-        {/* Background pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
-        
+        {/* Subtle radial glow effect on hover */}
+        <div className="absolute inset-0 rounded-2xl transition duration-500 group-hover:bg-emerald-500/10"></div>
+        {/* Background pattern for visual interest */}
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px] opacity-70 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+
         {/* Status badge */}
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 z-10">
           {attempted ? (
-            <div className="flex items-center gap-1 bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm">
+            <div className="flex items-center gap-1 bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full text-xs font-medium">
               <CheckCircle size={14} />
               Completed
             </div>
           ) : (
-            <div className="flex items-center gap-1 bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm">
+            <div className="flex items-center gap-1 bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs font-medium">
               <Sparkles size={14} />
               New
             </div>
           )}
         </div>
 
-        <h2 className="text-2xl font-bold text-white relative z-10">
+        <h2 className="text-2xl font-bold text-white relative z-10 group-hover:text-emerald-300 transition-colors">
           {quiz.title}
         </h2>
         <p className="mt-2 text-slate-300 text-sm relative z-10">
@@ -108,10 +151,10 @@ function UserQuiz() {
               attempted ? gotoLeaderboard(quiz.id) : gotoQuiz(quiz.id);
             }}
             className={`flex items-center gap-2 font-medium py-2 px-5 rounded-xl transition duration-200 backdrop-blur-sm
-              ${attempted
-                ? "bg-emerald-500/90 hover:bg-emerald-500 text-white"
-                : "bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white"
-              }`}
+            ${attempted
+              ? "bg-emerald-500/90 hover:bg-emerald-500 text-white"
+              : "bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white"
+            }`}
           >
             <PlayCircle size={18} />
             {attempted ? "View Result" : "Start Quiz"}
@@ -133,48 +176,12 @@ function UserQuiz() {
     );
   };
 
-  const Notification = ({ message, type, onClose }) => {
-    let bgColor, Icon;
-    switch (type) {
-      case 'success':
-        bgColor = 'bg-green-600/90 backdrop-blur-sm';
-        Icon = CheckCircle;
-        break;
-      case 'error':
-        bgColor = 'bg-red-600/90 backdrop-blur-sm';
-        Icon = XCircle;
-        break;
-      case 'info':
-        bgColor = 'bg-blue-600/90 backdrop-blur-sm';
-        Icon = CheckCircle;
-        break;
-      default:
-        bgColor = 'bg-gray-600/90 backdrop-blur-sm';
-        Icon = CheckCircle;
-    }
-    return (
-      <motion.div
-        initial={{ x: 300, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: 300, opacity: 0 }}
-        transition={{ duration: 0.5, type: "spring" }}
-        className={`fixed top-5 right-5 z-50 flex items-center gap-3 p-4 rounded-xl shadow-xl text-white ${bgColor} border border-white/10`}
-      >
-        <Icon size={24} />
-        <span className="font-medium text-sm">{message}</span>
-        <button onClick={onClose} className="text-white/80 hover:text-white transition">
-          <X size={20} />
-        </button>
-      </motion.div>
-    );
-  };
-
   return (
-    <div className="min-h-screen flex bg-slate-950 text-white relative overflow-hidden">
+    <div className="min-h-screen flex bg-slate-950 text-white font-sans relative overflow-hidden">
       {/* Animated background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/80 to-slate-950"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/80 via-slate-950/70 to-slate-950/90"></div>
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-emerald-500/5 to-transparent"></div>
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-0 -right-20 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse-slow-delay"></div>
@@ -196,7 +203,7 @@ function UserQuiz() {
         initial={{ x: 0 }}
         animate={{ width: sidebarOpen ? '16rem' : '5rem' }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="bg-slate-900/80 border-r border-slate-700/30 flex flex-col items-center p-6 min-h-screen sticky top-0 backdrop-blur-lg"
+        className="z-20 bg-slate-900/80 border-r border-slate-700/30 flex flex-col items-center p-6 min-h-screen sticky top-0 backdrop-blur-lg"
       >
         <div className="flex flex-col items-center w-full h-full">
           {/* Sidebar toggle button */}
@@ -234,7 +241,7 @@ function UserQuiz() {
                 Quizzes Attempted: {attemptedIds.size}
               </div>
             </div>
-            
+
             <div className="mt-auto">
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -251,35 +258,44 @@ function UserQuiz() {
       </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 px-6 md:px-8 py-8 overflow-auto">
+      <main className="flex-1 px-6 md:px-8 py-8 overflow-auto z-10">
         {/* Header with search */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex justify-between items-center flex-wrap mb-10 gap-4"
+          className="flex flex-col md:flex-row justify-between items-center flex-wrap mb-10 gap-4"
         >
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-white">
               Quiz Dashboard
             </h1>
             <p className="text-slate-400 mt-1">
-              Welcome back, {name || username}
+              Welcome back, {name || username}!
             </p>
           </div>
-
-          <motion.div 
-            whileFocus={{ scale: 1.02 }}
-            className="flex items-center gap-3 bg-white/5 backdrop-blur-md px-4 py-3 rounded-xl shadow border border-slate-700/40 hover:border-slate-600/60 transition-colors"
-          >
-            <Search className="text-slate-400" size={18} />
-            <input
-              type="text"
-              value={searchCode}
-              onChange={(e) => setSearchCode(e.target.value)}
-              placeholder="Search by quiz code..."
-              className="bg-transparent text-sm w-40 md:w-52 placeholder-slate-400 text-white outline-none"
-            />
-          </motion.div>
+          
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <motion.div
+              className="flex items-center gap-3 flex-1 bg-white/5 backdrop-blur-md px-4 py-3 rounded-xl shadow border border-slate-700/40 hover:border-slate-600/60 transition-colors focus-within:ring-2 focus-within:ring-emerald-500/50"
+            >
+              <Search className="text-slate-400" size={18} />
+              <input
+                type="text"
+                value={searchCode}
+                onChange={(e) => setSearchCode(e.target.value)}
+                placeholder="Search by quiz code..."
+                className="bg-transparent text-sm w-full md:w-52 placeholder-slate-400 text-white outline-none"
+              />
+            </motion.div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="md:hidden flex items-center justify-center px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-500 text-white rounded-xl transition duration-200 backdrop-blur-sm"
+              onClick={() => showNotification("You can join quizzes from the dashboard.", "info", setNotification)}
+            >
+              <PlusCircle size={20} />
+            </motion.button>
+          </div>
         </motion.div>
 
         {/* Quiz list */}
@@ -288,7 +304,7 @@ function UserQuiz() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
           </div>
         ) : filteredQuizzes.length === 0 ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-16"
@@ -300,14 +316,14 @@ function UserQuiz() {
               {searchCode ? "No quizzes found" : "No quizzes available"}
             </h3>
             <p className="text-slate-500 max-w-md mx-auto">
-              {searchCode 
+              {searchCode
                 ? "Try a different quiz code or check if you've entered it correctly."
                 : "Check back later for new quizzes or contact your administrator."
               }
             </p>
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -323,4 +339,4 @@ function UserQuiz() {
   );
 }
 
-export default UserQuiz;
+export default App;
