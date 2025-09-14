@@ -191,7 +191,7 @@ app.get("/admin/quiz/:id", async (req, res) => {
                 user: true, // so you get usernames
               },
               orderBy: {
-                score: "desc", // sort by score
+                score: "desc", 
               },
             },
           },
