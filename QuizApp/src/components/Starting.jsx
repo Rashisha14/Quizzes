@@ -81,7 +81,7 @@ function App() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="#"
+              href="user/signin"
               className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:shadow-purple-500/40 transition-all duration-300"
             >
               🚀 Start Now <ArrowRight className="w-5 h-5" />

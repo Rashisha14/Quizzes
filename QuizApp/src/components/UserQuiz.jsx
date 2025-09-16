@@ -107,10 +107,10 @@ function App() {
           scale: 1.02
         }}
         whileTap={{ scale: 0.98 }}
-        className={`relative cursor-pointer w-full rounded-2xl p-6 border transition duration-300 overflow-hidden group
+        className={`relative w-full rounded-2xl p-6 border transition duration-300 overflow-hidden group backdrop-blur-md cursor-pointer
         ${attempted
-          ? "border-emerald-500/30 bg-gradient-to-br from-slate-900/60 to-slate-950/80"
-          : "border-slate-700/40 bg-gradient-to-br from-slate-800/40 to-slate-900/40"}`}
+          ? "border-emerald-500/30 bg-slate-800/60"
+          : "border-slate-700/40 bg-gradient-to-br from-slate-900/40 to-slate-800/40"}`}
       >
         {/* Subtle radial glow effect on hover */}
         <div className="absolute inset-0 rounded-2xl transition duration-500 group-hover:bg-emerald-500/10"></div>
@@ -200,7 +200,7 @@ function App() {
 
       {/* Sidebar */}
       <motion.aside
-        initial={{ x: 0 }}
+        initial={{ width: '16rem' }}
         animate={{ width: sidebarOpen ? '16rem' : '5rem' }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="z-20 bg-slate-900/80 border-r border-slate-700/30 flex flex-col items-center p-6 min-h-screen sticky top-0 backdrop-blur-lg"
