@@ -133,33 +133,34 @@ app.get("/admin/quiz", async (req, res) => {
 });
 
 
-
 // Dashboard User
 app.get("/user/quiz", async (req, res) => {
   const token = req.headers.token;
   if (!token) return res.status(400).json({ message: "Token missing" });
 
   try {
-    const decoded = JWT.verify(token, JWT_Pass);
+    JWT.verify(token, JWT_Pass);
 
-    const quizs = await prisma.quiz.findMany({
+    const quizzes = await prisma.quiz.findMany({
       where: { hidden: false },
       include: {
-        admin: {
-          select: {
-            name: true
-          }
-        }
+        admin: { select: { name: true } },
+        questions: { select: { id: true } }   // include only IDs to count
       }
     });
 
-    res.json(quizs);
+    // add time = number of questions
+    const formatted = quizzes.map(q => ({
+      ...q,
+      time: q.questions.length            // ⬅️ extra field
+    }));
+
+    res.json(formatted);
   } catch (err) {
     console.error("Token verify error:", err);
     return res.status(401).json({ message: "Invalid token" });
   }
 });
-
 
 
 
