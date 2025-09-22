@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Search, PlayCircle, Trophy, User, LogOut, Menu, X, Award, CheckSquare, XCircle, CheckCircle, Sparkles, PlusCircle, Clock, BarChart3 } from "lucide-react";
@@ -54,20 +54,28 @@ function App() {
   const [notification, setNotification] = useState({ visible: false, message: '', type: '' });
   const [isLoading, setIsLoading] = useState(true);
 
-  // Retrieve user data from localStorage
-  const token = localStorage.getItem("token");
-  const username = localStorage.getItem("username");
-  const name = localStorage.getItem("name");
+  // State for user session data
+  const [sessionToken, setSessionToken] = useState(localStorage.getItem("token"));
+  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [name, setName] = useState(localStorage.getItem("name"));
+
   const navigate = useNavigate();
 
+  // useEffect to handle initial session data load and data fetching
   useEffect(() => {
+    // If there is no token, redirect to signin.
+    if (!sessionToken) {
+      navigate("/user/signin");
+      return;
+    }
+
     // Fetch quiz data and user's attempted quizzes
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const [quizRes, attemptedRes] = await Promise.all([
-          axios.get("http://localhost:3000/user/quiz", { headers: { token } }),
-          axios.get("http://localhost:3000/user/attempted", { headers: { token } }),
+          axios.get("http://localhost:3000/user/quiz", { headers: { token: sessionToken } }),
+          axios.get("http://localhost:3000/user/attempted", { headers: { token: sessionToken } }),
         ]);
         setQuizzes(quizRes.data);
         setAttemptedIds(new Set(attemptedRes.data.quizIds || []));
@@ -79,7 +87,7 @@ function App() {
       }
     };
     fetchData();
-  }, [token]);
+  }, [sessionToken, navigate]); // Re-run effect when sessionToken changes
 
   // Real-time filtering logic
   const filteredQuizzes = quizzes.filter(quiz =>
@@ -89,7 +97,14 @@ function App() {
   const gotoQuiz = (quizId) => navigate(`/user/quiz/${quizId}`);
   const gotoLeaderboard = (quizId) => navigate(`/user/results/${quizId}`);
   const handleLogout = () => {
-    localStorage.clear();
+    // Corrected to only remove user-specific items
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("name");
+    
+    setSessionToken(null);
+    setUsername(null);
+    setName(null);
     navigate("/user/signin");
   };
 
@@ -111,8 +126,8 @@ function App() {
         whileTap={{ scale: 0.98 }}
         className={`relative w-full rounded-2xl p-6 border transition duration-300 overflow-hidden group backdrop-blur-md cursor-pointer
         ${attempted
-            ? "border-emerald-500/40 bg-gradient-to-br from-gray-900/70 to-gray-800/70 shadow-lg shadow-emerald-500/10"
-            : "border-indigo-500/40 bg-gradient-to-br from-gray-900/70 to-gray-800/70 shadow-lg shadow-indigo-500/10"}`}
+          ? "border-emerald-500/40 bg-gradient-to-br from-gray-900/70 to-gray-800/70 shadow-lg shadow-emerald-500/10"
+          : "border-indigo-500/40 bg-gradient-to-br from-gray-900/70 to-gray-800/70 shadow-lg shadow-indigo-500/10"}`}
       >
         {/* Background pattern for visual interest */}
         <div className="absolute inset-0 z-0 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px] opacity-70 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]"></div>
@@ -261,7 +276,7 @@ function App() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleLogout}
-                className="flex items-center gap-2 w-full justify-center px-4 py-2 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 font-medium transition-colors border border-rose-500/20"
+                className="flex items-center gap-2 w-full justify-center px-4 py-2 rounded-lg hover:rounded-2xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 font-medium transition-colors border border-rose-500/20"
               >
                 <LogOut size={18} />
                 {sidebarOpen && "Logout"}

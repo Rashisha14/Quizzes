@@ -1,7 +1,49 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { Users, Star, Award, Clock, ChevronLeft, Crown } from "lucide-react";
+import { Users, Star, Award, Clock, ChevronLeft, Crown, X, CheckCircle, XCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Component for displaying notifications
+const Notification = ({ message, type, onClose }) => {
+  let bgColor, Icon;
+  switch (type) {
+    case 'success':
+      bgColor = 'bg-emerald-600/90';
+      Icon = CheckCircle;
+      break;
+    case 'error':
+      bgColor = 'bg-rose-600/90';
+      Icon = XCircle;
+      break;
+    default:
+      bgColor = 'bg-blue-600/90';
+      Icon = CheckCircle;
+  }
+  return (
+    <motion.div
+      initial={{ x: 300, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 300, opacity: 0 }}
+      transition={{ duration: 0.5, type: "spring" }}
+      className={`fixed top-5 right-5 z-50 flex items-center gap-3 p-4 rounded-xl shadow-xl text-white ${bgColor} border border-white/10 backdrop-blur-md`}
+    >
+      <Icon size={24} />
+      <span className="font-medium text-sm">{message}</span>
+      <button onClick={onClose} className="text-white/80 hover:text-white transition">
+        <X size={20} />
+      </button>
+    </motion.div>
+  );
+};
+
+// Helper function to handle notifications
+const showNotification = (message, type, setNotification) => {
+  setNotification({ visible: true, message, type });
+  setTimeout(() => {
+    setNotification(prev => ({ ...prev, visible: false }));
+  }, 5000);
+};
 
 function LeaderboardPage() {
   const { id } = useParams();
@@ -20,6 +62,7 @@ function LeaderboardPage() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalQuestions, setTotalQuestions] = useState(null);
+  const [notification, setNotification] = useState({ visible: false, message: '', type: '' });
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -39,7 +82,7 @@ function LeaderboardPage() {
         setLoading(false);
       } catch (err) {
         console.error("Leaderboard fetch error:", err);
-        alert("Failed to load leaderboard");
+        showNotification("Failed to load leaderboard.", "error", setNotification);
         setLoading(false);
       }
     };
@@ -72,8 +115,31 @@ function LeaderboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black text-gray-100 font-sans">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black text-gray-100 font-sans relative overflow-hidden">
+      <AnimatePresence>
+        {notification.visible && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification({ ...notification, visible: false })}
+          />
+        )}
+      </AnimatePresence>
+
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-950/80 via-gray-900/70 to-gray-950/90"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-emerald-500/5 to-transparent"></div>
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-0 -right-20 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl animate-pulse-slow-delay"></div>
+      </div>
+      
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="container mx-auto px-4 py-8 max-w-6xl relative z-10"
+      >
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center justify-between mb-8">
           <div className="flex items-center mb-4 md:mb-0">
@@ -258,7 +324,7 @@ function LeaderboardPage() {
             </div>
           </>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

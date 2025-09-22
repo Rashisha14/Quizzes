@@ -3,13 +3,59 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
   User, LogOut, Menu, X, Award, PlusCircle,
-  BarChart3, Eye, EyeOff, Trophy, Calendar, User as UserIcon
+  BarChart3, Eye, EyeOff, Trophy, Calendar, User as UserIcon, CheckCircle, XCircle
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+// New reusable Notification component
+const Notification = ({ message, type, onClose }) => {
+  let bgColor, Icon;
+  switch (type) {
+    case 'success':
+      bgColor = 'bg-emerald-600/90';
+      Icon = CheckCircle;
+      break;
+    case 'error':
+      bgColor = 'bg-rose-600/90';
+      Icon = XCircle;
+      break;
+    default:
+      bgColor = 'bg-blue-600/90';
+      Icon = CheckCircle;
+  }
+  return (
+    <motion.div
+      initial={{ x: 300, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 300, opacity: 0 }}
+      transition={{ duration: 0.5, type: "spring" }}
+      className={`fixed top-5 right-5 z-50 flex items-center gap-3 p-4 rounded-xl shadow-xl text-white ${bgColor} border border-white/10 backdrop-blur-md`}
+    >
+      <Icon size={24} />
+      <span className="font-medium text-sm">{message}</span>
+      <button onClick={onClose} className="text-white/80 hover:text-white transition">
+        <X size={20} />
+      </button>
+    </motion.div>
+  );
+};
+
+// New helper function to show a notification
+const showNotification = (message, type, setNotification) => {
+  setNotification({ visible: true, message, type });
+  setTimeout(() => {
+    setNotification(prev => ({ ...prev, visible: false }));
+  }, 5000);
+};
+
 
 function AdminQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  // New state for notifications
+  const [notification, setNotification] = useState({ visible: false, message: '', type: '' });
+
   const token = localStorage.getItem("adminToken");
   const adminName = localStorage.getItem("adminName");
   const adminUsername = localStorage.getItem("adminUsername");
@@ -26,7 +72,8 @@ function AdminQuiz() {
       .catch(err => {
         console.error(err);
         setIsLoading(false);
-        alert("Failed to fetch your quizzes");
+        // Changed from alert() to showNotification()
+        showNotification("Failed to fetch your quizzes.", "error", setNotification);
       });
   }, [token]);
 
@@ -41,14 +88,20 @@ function AdminQuiz() {
     try {
       await axios.patch(`http://localhost:3000/admin/quiz/${id}/toggle`, {}, { headers: { token } });
       setQuizzes(prev => prev.map(q => q.id === id ? { ...q, hidden: !hidden } : q));
+      // Add success notification
+      showNotification(`Quiz is now ${!hidden ? 'published' : 'hidden'}.`, "success", setNotification);
     } catch (err) {
       console.error("Failed to toggle quiz:", err);
-      alert("Failed to update quiz status");
+      // Changed from alert() to showNotification()
+      showNotification("Failed to update quiz status.", "error", setNotification);
     }
   };
 
   const handleLogout = () => {
-    localStorage.clear();
+    // Corrected to remove specific items instead of clearing all of localStorage
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminName");
+    localStorage.removeItem("adminUsername");
     navigate("/admin/signin");
   };
 
@@ -61,7 +114,18 @@ function AdminQuiz() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-gray-900 to-gray-950 text-white">
+    <div className="min-h-screen flex bg-gradient-to-br from-gray-900 to-gray-950 text-white relative">
+      {/* Notification container - New */}
+      <AnimatePresence>
+        {notification.visible && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification({ ...notification, visible: false })}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
       <aside className={`transition-all duration-300 ease-in-out ${sidebarOpen ? "w-64" : "w-20"} bg-gray-800 flex flex-col justify-between overflow-hidden`}>
         <div className="p-5">
