@@ -152,7 +152,7 @@ app.get("/user/quiz", async (req, res) => {
     // add time = number of questions
     const formatted = quizzes.map(q => ({
       ...q,
-      time: q.questions.length            // ⬅️ extra field
+      time: q.questions.length           
     }));
 
     res.json(formatted);
