@@ -151,10 +151,9 @@ function App() {
     <div className="min-h-screen flex flex-col bg-slate-950 text-white font-sans relative overflow-hidden">
       {/* Animated background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/80 via-slate-950/70 to-slate-950/90"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-amber-500/5 to-transparent"></div>
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#0f172a_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/90 to-slate-950"></div>
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-0 -right-20 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse-slow-delay"></div>
       </div>
 
@@ -173,22 +172,22 @@ function App() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl w-full mx-auto px-4 py-8 z-10"
+        className="max-w-5xl w-full mx-auto px-4 py-12 z-10"
       >
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/admin/quiz")}
-            className="flex items-center gap-2 text-amber-400 hover:text-amber-300 font-medium transition p-2 rounded-lg"
+            className="flex items-center gap-2 text-slate-300 hover:text-white transition p-2 rounded-lg"
           >
             <ArrowLeft size={20} />
             Back to Dashboard
           </motion.button>
-          <div className="flex items-center gap-2 bg-amber-900/20 px-3 py-1.5 rounded-lg border border-amber-700/30">
-            <HelpCircle size={16} className="text-amber-400" />
-            <span className="text-amber-300 text-sm">{questions.length} Question{questions.length !== 1 ? 's' : ''}</span>
+          <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-700/50">
+            <HelpCircle size={16} className="text-slate-400" />
+            <span className="text-slate-300 text-sm">{questions.length} Question{questions.length !== 1 ? 's' : ''}</span>
           </div>
         </div>
 
@@ -196,36 +195,36 @@ function App() {
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-slate-900/80 rounded-2xl shadow-xl p-6 md:p-8 border border-amber-700/30 backdrop-blur-lg"
+          className="bg-slate-900/50 rounded-2xl shadow-2xl p-6 md:p-10 border border-slate-700/30 backdrop-blur-xl"
         >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-amber-900/50 rounded-lg border border-amber-700/30">
-              <FileText className="h-6 w-6 text-amber-400" />
+          <div className="flex items-center gap-4 mb-8">
+            <div className="p-3 bg-cyan-600/10 rounded-xl border border-cyan-700/30">
+              <FileText className="h-8 w-8 text-cyan-400" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-amber-400">Create New Quiz</h1>
-              <p className="text-slate-400 text-sm mt-1">Build engaging quizzes with multiple questions and options</p>
+              <h1 className="text-3xl md:text-4xl font-bold text-white">Create New Quiz</h1>
+              <p className="text-slate-400 text-base mt-1">Build engaging quizzes with multiple questions and options</p>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-10">
             {/* Basic Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-amber-300 mb-2">Quiz Title</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Quiz Title</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-amber-700/30 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white transition placeholder-slate-500"
+                  className="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700/50 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-white transition placeholder-slate-500"
                   placeholder="Enter quiz title"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-amber-300 mb-2 flex items-center gap-2">
-                  <Hash className="h-4 w-4" />
+                <label className="block text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                  <Hash className="h-4 w-4 text-cyan-400" />
                   Quiz Code
                 </label>
                 <input
@@ -233,17 +232,17 @@ function App() {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   required
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-amber-700/30 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white transition placeholder-slate-500 font-mono"
+                  className="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700/50 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-white transition placeholder-slate-500 font-mono"
                   placeholder="Enter unique code"
                 />
-                <p className="text-xs text-amber-500/70 mt-1">Participants will use this code to join</p>
+                <p className="text-xs text-slate-500 mt-1">Participants will use this code to join</p>
               </div>
             </div>
 
             {/* Questions Navigation */}
             {questions.length > 1 && (
-              <div className="bg-slate-800/50 rounded-lg p-3 border border-amber-700/20">
-                <h3 className="text-sm font-medium text-amber-300 mb-2">Questions</h3>
+              <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50">
+                <h3 className="text-sm font-medium text-slate-300 mb-3">Question Navigation</h3>
                 <div className="flex flex-wrap gap-2">
                   {questions.map((_, index) => (
                     <motion.button
@@ -252,10 +251,10 @@ function App() {
                       onClick={() => setActiveQuestion(index)}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition ${
+                      className={`w-9 h-9 rounded-full flex items-center justify-center text-base font-semibold transition ${
                         activeQuestion === index
-                          ? 'bg-amber-600 text-slate-950'
-                          : 'bg-slate-600/50 text-slate-300 hover:bg-slate-500/50'
+                          ? 'bg-cyan-600 text-slate-950 shadow-md'
+                          : 'bg-slate-700/50 text-slate-300 hover:bg-slate-600/50'
                       }`}
                     >
                       {index + 1}
@@ -265,16 +264,16 @@ function App() {
               </div>
             )}
 
-            {/* Questions */}
+            {/* Questions Section */}
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-amber-400">Questions</h2>
+                <h2 className="text-xl font-semibold text-white">Questions</h2>
                 <motion.button
                   type="button"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={addQuestion}
-                  className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-slate-950 rounded-lg hover:bg-amber-500 transition font-medium"
+                  className="flex items-center gap-2 px-5 py-2 bg-cyan-600 text-slate-950 rounded-lg hover:bg-cyan-500 transition font-medium shadow-md"
                 >
                   <Plus size={18} />
                   Add Question
@@ -288,14 +287,13 @@ function App() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className={`p-5 rounded-xl border space-y-4 transition-all
-                  bg-amber-900/20 border-amber-700/50`}
+                  className="p-6 rounded-xl border border-slate-700/50 space-y-5 bg-slate-800/30 backdrop-blur-md"
                 >
                   {/* Question header */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-sm font-medium text-amber-300 bg-amber-900/30 px-2 py-1 rounded border border-amber-700/30">
+                        <span className="text-sm font-medium text-slate-300 bg-slate-700/50 px-2 py-1 rounded border border-slate-600/50">
                           Question {activeQuestion + 1}
                         </span>
                         {questions.length > 1 && (
@@ -316,7 +314,7 @@ function App() {
                         value={questions[activeQuestion].text}
                         onChange={(e) => updateQuestionText(activeQuestion, e.target.value)}
                         placeholder="Enter your question here"
-                        className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-amber-700/30 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white transition placeholder-slate-500"
+                        className="w-full px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-white transition placeholder-slate-500"
                         required
                       />
                     </div>
@@ -325,10 +323,10 @@ function App() {
                   {/* Options */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-amber-300">Options</span>
-                      <span className="text-xs text-amber-500/70">
+                      <span className="text-sm font-medium text-slate-300">Options</span>
+                      <span className="text-xs text-slate-500">
                         {questions[activeQuestion].options.filter(opt => opt.isCorrect).length === 1
-                          ? "✓ Correct answer selected"
+                          ? "✓ One correct answer selected"
                           : "Select one correct answer"}
                       </span>
                     </div>
@@ -341,13 +339,13 @@ function App() {
                             value={opt.text}
                             onChange={(e) => updateOptionText(activeQuestion, oIndex, e.target.value)}
                             placeholder={`Option ${oIndex + 1}`}
-                            className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-amber-700/30 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white transition placeholder-slate-500 pr-10"
+                            className="w-full px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 text-white transition placeholder-slate-500 pr-10"
                             required
                           />
                           {opt.isCorrect && (
                             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                               <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                                <CheckCircle size={12} className="text-slate-950" />
+                                <CheckCircle size={12} className="text-white" />
                               </div>
                             </div>
                           )}
@@ -386,7 +384,7 @@ function App() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => addOption(activeQuestion)}
-                      className="flex items-center gap-2 text-amber-400 hover:text-amber-300 text-sm font-medium mt-2"
+                      className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 text-sm font-medium mt-2"
                     >
                       <Plus size={16} /> Add Option
                     </motion.button>
@@ -396,13 +394,13 @@ function App() {
             </div>
 
             {/* Submit */}
-            <div className="pt-4 border-t border-amber-700/30">
+            <div className="pt-6 border-t border-slate-700/50">
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-slate-950 font-semibold shadow-md transition disabled:opacity-70 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-500 hover:from-cyan-500 hover:to-teal-400 text-slate-950 font-semibold shadow-md transition disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

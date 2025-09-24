@@ -89,7 +89,7 @@ function AdminQuiz() {
       await axios.patch(`http://localhost:3000/admin/quiz/${id}/toggle`, {}, { headers: { token } });
       setQuizzes(prev => prev.map(q => q.id === id ? { ...q, hidden: !hidden } : q));
       // Add success notification
-      showNotification(`Quiz is now ${!hidden ? 'published' : 'hidden'}.`, "success", setNotification);
+      showNotification(`Quiz is now ${!hidden ? 'hidden' : 'published'}.`, "success", setNotification);
     } catch (err) {
       console.error("Failed to toggle quiz:", err);
       // Changed from alert() to showNotification()
