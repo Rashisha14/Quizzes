@@ -1,7 +1,7 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Search, PlayCircle, Trophy, User, LogOut, Menu, X, Award, CheckSquare, XCircle, CheckCircle, Sparkles, PlusCircle, Clock, BarChart3 } from "lucide-react";
+import { Search, PlayCircle, Trophy, User, LogOut, Menu, X, Award, CheckSquare, XCircle, CheckCircle, Sparkles, PlusCircle, Clock, BarChart3, ChevronRight, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Helper function to handle notifications
@@ -232,7 +232,7 @@ function App() {
         initial={{ width: '16rem' }}
         animate={{ width: sidebarOpen ? '16rem' : '5rem' }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="z-20 bg-gray-900/90 border-r border-gray-700/30 flex flex-col items-center p-6 min-h-screen sticky top-0 backdrop-blur-lg"
+        className="z-20 bg-gray-900/90 border-r border-gray-700/30 flex flex-col p-6 min-h-screen sticky top-0 backdrop-blur-lg"
       >
         <div className="flex flex-col items-center w-full h-full">
           {/* Sidebar toggle button */}
@@ -242,7 +242,7 @@ function App() {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="mb-8 text-emerald-400 hover:text-emerald-100 self-end transition p-1.5 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700/50"
           >
-            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            {sidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
           </motion.button>
 
           {/* Profile Avatar */}
