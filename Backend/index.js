@@ -3,7 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const JWT = require("jsonwebtoken");
 const cors = require("cors");
-
+const port=process.env.PORT || 3000 ;
 
 const app = express();
 app.use(express.json());
@@ -625,11 +625,13 @@ app.get("/admin/results/:id", async (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+    res.send('Backend is working!');
+});
 
 
 
 //  Start the server
-app.listen(3000, "0.0.0.0", () => {
+app.listen(port, "0.0.0.0", () => {
   console.log("Running on 0.0.0.0:3000");
 });
-
