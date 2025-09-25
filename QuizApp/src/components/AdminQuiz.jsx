@@ -53,7 +53,6 @@ function AdminQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  // New state for notifications
   const [notification, setNotification] = useState({ visible: false, message: '', type: '' });
 
   const token = localStorage.getItem("adminToken");
@@ -64,7 +63,8 @@ function AdminQuiz() {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get("http://localhost:3000/admin/quiz", { headers: { token } })
+    // UPDATED URL HERE
+    axios.get("https://quizzes-backend-16wj.onrender.com/admin/quiz", { headers: { token } })
       .then((res) => {
         setQuizzes(res.data);
         setIsLoading(false);
@@ -72,7 +72,6 @@ function AdminQuiz() {
       .catch(err => {
         console.error(err);
         setIsLoading(false);
-        // Changed from alert() to showNotification()
         showNotification("Failed to fetch your quizzes.", "error", setNotification);
       });
   }, [token]);
@@ -86,19 +85,17 @@ function AdminQuiz() {
   const toggleQuizVisibility = async (id, hidden, e) => {
     e.stopPropagation();
     try {
-      await axios.patch(`http://localhost:3000/admin/quiz/${id}/toggle`, {}, { headers: { token } });
+      // UPDATED URL HERE
+      await axios.patch(`https://quizzes-backend-16wj.onrender.com/admin/quiz/${id}/toggle`, {}, { headers: { token } });
       setQuizzes(prev => prev.map(q => q.id === id ? { ...q, hidden: !hidden } : q));
-      // Add success notification
       showNotification(`Quiz is now ${!hidden ? 'hidden' : 'published'}.`, "success", setNotification);
     } catch (err) {
       console.error("Failed to toggle quiz:", err);
-      // Changed from alert() to showNotification()
       showNotification("Failed to update quiz status.", "error", setNotification);
     }
   };
 
   const handleLogout = () => {
-    // Corrected to remove specific items instead of clearing all of localStorage
     localStorage.removeItem("adminToken");
     localStorage.removeItem("adminName");
     localStorage.removeItem("adminUsername");
@@ -115,7 +112,6 @@ function AdminQuiz() {
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-gray-900 to-gray-950 text-white relative">
-      {/* Notification container - New */}
       <AnimatePresence>
         {notification.visible && (
           <Notification
@@ -126,10 +122,8 @@ function AdminQuiz() {
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
       <aside className={`transition-all duration-300 ease-in-out ${sidebarOpen ? "w-64" : "w-20"} bg-gray-800 flex flex-col justify-between overflow-hidden`}>
         <div className="p-5">
-          {/* Toggle Button */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="mb-6 text-amber-400 hover:text-amber-300 transition p-2 rounded-lg hover:bg-gray-700"
@@ -137,7 +131,6 @@ function AdminQuiz() {
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          {/* User Info */}
           <div className="flex flex-col items-center mb-8">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white font-bold text-2xl mb-3">
               {adminName?.charAt(0).toUpperCase()}
@@ -158,7 +151,6 @@ function AdminQuiz() {
           </div>
         </div>
 
-        {/* Logout Button */}
         <div className="p-5 border-t border-gray-700">
           {sidebarOpen ? (
             <button
@@ -180,10 +172,8 @@ function AdminQuiz() {
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 overflow-auto">
         <div className="p-8">
-          {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-white mb-2">Quiz Dashboard</h1>
             <p className="text-gray-400">
@@ -191,7 +181,6 @@ function AdminQuiz() {
             </p>
           </div>
 
-          {/* Stats Overview */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
             <div className="bg-gray-800 rounded-xl p-5 border border-gray-700">
               <div className="flex items-center justify-between">
@@ -222,7 +211,6 @@ function AdminQuiz() {
             </div>
           </div>
 
-          {/* Content Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <h2 className="text-xl font-semibold text-white">Your Quizzes</h2>
             <button
@@ -234,7 +222,6 @@ function AdminQuiz() {
             </button>
           </div>
 
-          {/* Quiz List */}
           {isLoading ? (
             <div className="flex justify-center items-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"></div>
@@ -286,7 +273,6 @@ function AdminQuiz() {
                     </div>
                   </div>
 
-                  {/* Action buttons */}
                   <div className="flex flex-wrap gap-2 mt-6">
                     <button
                       onClick={(e) => goToLeaderboard(quiz.id, e)}

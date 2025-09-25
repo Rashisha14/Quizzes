@@ -22,7 +22,7 @@ export default function UserSignin() {
     }
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3000/user/signin", form);
+      const res = await axios.post("https://quizzes-backend-16wj.onrender.com/user/signin", form);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("username", res.data.user.username);
       localStorage.setItem("name", res.data.user.name);
@@ -94,7 +94,7 @@ export default function UserSignin() {
         {/* Right: sign-in card */}
         <section className="order-1 md:order-2">
           <div className="flex min-h-140 items-center justify-center ">
-            <div className="mx-auto w-full max-w-md rounded-2xl border  border-gray-700 bg-gray-900 p-8">
+            <div className="mx-auto w-full max-w-md rounded-2xl border 	border-gray-700 bg-gray-900 p-8">
               <div className="mb-6 text-center">
                 <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100">
                   <LogoIcon />

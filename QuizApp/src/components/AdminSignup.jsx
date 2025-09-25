@@ -22,7 +22,8 @@ export default function AdminSignup() {
     }
     try {
       setLoading(true);
-      await axios.post("http://localhost:3000/admin/signup", form);
+      // UPDATED URL HERE
+      await axios.post("https://quizzes-backend-16wj.onrender.com/admin/signup", form);
       navigate("/admin/signin");
     } catch (error) {
       setErr("Signup failed. Try again.");

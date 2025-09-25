@@ -1,7 +1,7 @@
-import { useEffect, useState, createContext, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Search, PlayCircle, Trophy, User, LogOut, Menu, X, Award, CheckSquare, XCircle, CheckCircle, Sparkles, PlusCircle, Clock, BarChart3, ChevronRight, ChevronLeft, Zap, Target, Calendar, Users } from "lucide-react";
+import { Search, PlayCircle, Trophy, User, LogOut, Award, CheckCircle, XCircle, Zap, Target, Clock, BarChart3, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Helper function to handle notifications
@@ -49,8 +49,8 @@ const Notification = ({ message, type, onClose }) => {
   );
 };
 
-// Main UserQuiz component
-function App() {
+// Main UserQuizDashboard component
+function UserQuizDashboard() {
   const [quizzes, setQuizzes] = useState([]);
   const [searchCode, setSearchCode] = useState("");
   const [attemptedIds, setAttemptedIds] = useState(new Set());
@@ -76,8 +76,8 @@ function App() {
       try {
         setIsLoading(true);
         const [quizRes, attemptedRes] = await Promise.all([
-          axios.get("http://localhost:3000/user/quiz", { headers: { token: sessionToken } }),
-          axios.get("http://localhost:3000/user/attempted", { headers: { token: sessionToken } }),
+          axios.get("https://quizzes-backend-16wj.onrender.com/user/quiz", { headers: { token: sessionToken } }),
+          axios.get("https://quizzes-backend-16wj.onrender.com/user/attempted", { headers: { token: sessionToken } }),
         ]);
         setQuizzes(quizRes.data);
         setAttemptedIds(new Set(attemptedRes.data.quizIds || []));
@@ -434,4 +434,4 @@ function App() {
   );
 }
 
-export default App;
+export default UserQuizDashboard;

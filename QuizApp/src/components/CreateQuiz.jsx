@@ -48,7 +48,7 @@ const Notification = ({ message, type, onClose }) => {
   );
 };
 
-function App() {
+function CreateQuiz() {
   const [title, setTitle] = useState("");
   const [code, setCode] = useState("");
   const [questions, setQuestions] = useState([
@@ -133,7 +133,7 @@ function App() {
 
     try {
       await axios.post(
-        "http://localhost:3000/admin/quiz",
+        "https://quizzes-backend-16wj.onrender.com/admin/quiz",
         { title, code, questions },
         { headers: { token } }
       );
@@ -422,4 +422,4 @@ function App() {
   );
 }
 
-export default App;
+export default CreateQuiz;

@@ -22,7 +22,7 @@ export default function UserSignup() {
     }
     try {
       setLoading(true);
-      await axios.post("http://localhost:3000/user/signup", form);
+      await axios.post("https://quizzes-backend-16wj.onrender.com/user/signup", form);
       navigate("/user/signin");
     } catch (error) {
       setErr("Signup failed. Please try again.");

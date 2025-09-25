@@ -22,13 +22,11 @@ export default function AdminSignin() {
     }
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3000/admin/signin", form);
+      // UPDATED URL HERE
+      const res = await axios.post("https://quizzes-backend-16wj.onrender.com/admin/signin", form);
       localStorage.setItem("adminToken", res.data.token);
       localStorage.setItem("adminUsername", res.data.admin.username);
       localStorage.setItem("adminName", res.data.admin.name);
-
-
-
 
       navigate("/admin/quiz");
     } catch (error) {
@@ -76,14 +74,14 @@ export default function AdminSignin() {
                 <p className="text-slate-400">Easy to navigate tools</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-3 shadow-sm hover:scale-105">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-3 shadow-sm hover:scale-105 transition">
               <LightningIcon />
               <div>
                 <p className="font-semibold text-white">Privacy first</p>
                 <p className="text-slate-400">Your data stays protected</p>
               </div>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-3 shadow-sm hover:scale-105">
+            <li className="flex items-start gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-3 shadow-sm hover:scale-105 transition">
               <SparklesIcon />
               <div>
                 <p className="font-semibold text-white">Beautiful UI</p>

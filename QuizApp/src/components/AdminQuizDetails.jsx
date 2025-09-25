@@ -71,7 +71,8 @@ const AdminQuizDetail = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:3000/admin/quiz/${id}`, { headers: { token } })
+    // UPDATED URL HERE
+    axios.get(`https://quizzes-backend-16wj.onrender.com/admin/quiz/${id}`, { headers: { token } })
       .then((res) => {
         setQuiz(res.data);
         setError(null);
@@ -166,9 +167,9 @@ const AdminQuizDetail = () => {
                       >
                         <span className={opt.isCorrect ? "font-semibold" : ""}>{opt.text}</span>
                         {opt.isCorrect && (
-                           <div className="flex-shrink-0 ml-2 flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 text-xs px-2 py-1 rounded-full font-medium">
-                            <Check size={14}/> Correct
-                          </div>
+                            <div className="flex-shrink-0 ml-2 flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 text-xs px-2 py-1 rounded-full font-medium">
+                              <Check size={14}/> Correct
+                            </div>
                         )}
                       </div>
                     ))}
@@ -189,4 +190,3 @@ const AdminQuizDetail = () => {
 };
 
 export default AdminQuizDetail;
-

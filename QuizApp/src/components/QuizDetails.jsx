@@ -321,7 +321,7 @@ const ReviewQuestions = ({ questions, responses }) => {
 
 // --- Parent Component ---
 
-function App() {
+function QuizPlayPage() {
   const { id } = useParams();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -344,7 +344,7 @@ function App() {
 
   // Fetch quiz data
   useEffect(() => {
-    axios.get(`http://localhost:3000/user/quiz/${id}`, { headers: { token } })
+    axios.get(`https://quizzes-backend-16wj.onrender.com/user/quiz/${id}`, { headers: { token } })
       .then((res) => {
         setQuiz(res.data);
         setTimeLeft(res.data.questions.length * 60);
@@ -371,7 +371,7 @@ function App() {
     );
 
     try {
-      const res = await axios.post(`http://localhost:3000/user/quiz/${id}`,
+      const res = await axios.post(`https://quizzes-backend-16wj.onrender.com/user/quiz/${id}`,
         { responses: formattedResponses, timeTaken }, { headers: { token } });
       setResult(res.data);
     } catch (err) {
@@ -468,5 +468,5 @@ function App() {
   );
 }
 
-export default App;
+export default QuizPlayPage;
 

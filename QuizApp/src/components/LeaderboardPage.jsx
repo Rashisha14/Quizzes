@@ -56,8 +56,8 @@ function LeaderboardPage() {
   // Pick correct token and endpoint
   const token = localStorage.getItem(isAdmin ? "adminToken" : "token");
   const endpoint = isAdmin
-    ? `http://localhost:3000/admin/results/${id}`
-    : `http://localhost:3000/user/results/${id}`;
+    ? `https://quizzes-backend-16wj.onrender.com/admin/results/${id}`
+    : `https://quizzes-backend-16wj.onrender.com/user/results/${id}`;
 
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
