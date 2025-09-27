@@ -175,7 +175,7 @@ function UserQuizDashboard() {
             </span>
           </p>
           <p className="text-slate-300 text-sm flex items-center gap-2">
-            <Users size={14} className="text-slate-400" />
+            <User size={14} className="text-slate-400" />
             <span className="text-slate-400">By:</span>
             <span className="text-amber-300">{quiz.admin?.name || "Unknown"}</span>
           </p>
