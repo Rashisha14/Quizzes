@@ -1,3 +1,4 @@
+## <p align="center">QuizArrow</p>
 # <p align="center">Quiz Platform</p>
 
 <p align="center">
