@@ -1,5 +1,5 @@
-## <p align="center">QuizArrow</p>
-# <p align="center">Quiz Platform</p>
+# <p align="center">QuizArrow</p>
+## <p align="center">Quiz Platform</p>
 
 <p align="center">
  <a href="#"><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"></a>
