@@ -25,6 +25,8 @@ The Quiz Platform is a full-stack web application designed for creating, partici
 6.  [Technologies Used](#technologies-used)
 7.  [License](#license)
 
+
+
 ## Key Features
 
 *   **Admin Dashboard:** Secure admin interface for creating and managing quizzes with support for multiple categories and difficulty levels.
